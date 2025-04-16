@@ -123,7 +123,7 @@ include("config.php");
                             <div class="p-4 text-center hover-bg-white hover-shadow rounded mb-4 transation-3s"> 
 								<i class="flaticon-rent text-success flat-medium" aria-hidden="true"></i>
                                 <h5 class="text-secondary hover-text-success py-3 m-0"><a href="#">Selling Service</a></h5>
-                                <p>This is a dummy text for filling out spaces. Just some random words...</p>
+                                <p>This is a </p>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-6">
