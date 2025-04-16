@@ -7,7 +7,7 @@
                                 <div class="col-md-12 col-lg-4">
                                     <div class="footer-widget mb-4">
                                         <div class="footer-logo mb-4"> <a href="#"><img class="logo-bottom" src="images/logo/restatelg_white.png" alt="image"></a> </div>
-                                        <p class="pb-20 text-white">Risus commodo congue augue phasellus morbi hymenaeos ante tincidunt eu orci dictum bibendum lacus platea primis mi lacinia felis gravida natoque bibendum cubilia montes tristique et arcu blandit risus. Lobortis dignissim nam.</p>
+                                        <p class="pb-20 text-white">The Real Estate Web Project is a dynamic platform designed to simplify property listings, searches, and transactions. It allows buyers and sellers to connect, communicate via chat, and manage listings efficiently. Admins can monitor activities for security and moderation. The system ensures a seamless user experience with features like search filters, chat history, and real-time updates..</p>
 										
                                         </div>
                                 </div>
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="row copyright">
-                    <div class="col-sm-6"> <span class="text-white">© <?php echo date('Y');?> Real Estate Website - Developed By Suraj Kumar Vishwakarma</span> </div>
+                    <div class="col-sm-6"> <span class="text-white">© <?php echo date('Y');?> Real Estate Website - DBMT_GROUP1</span> </div>
                     <div class="col-sm-6">
                         <ul class="line-menu text-white hover-text-primary float-right">
                             <li><a href="#">Privacy & Policy</a></li>
