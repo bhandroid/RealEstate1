@@ -11,6 +11,8 @@ if (isset($_POST['reg'])) {
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $pass = $_POST['pass'];
+    $role = $_POST['role'];
+
 
     // Hash the password using password_hash (more secure than sha1)
     $hashed_pass = password_hash($pass, PASSWORD_DEFAULT);
@@ -32,6 +34,7 @@ if (isset($_POST['reg'])) {
             $_SESSION['email'] = $email;
             $_SESSION['phone'] = $phone;
             $_SESSION['pass'] = $hashed_pass;
+            $_SESSION['role'] = $role;
 
             // Send OTP
             if (sendOtpMail($email, $name, $otp)) {
@@ -75,6 +78,18 @@ if (isset($_POST['reg'])) {
                 <div class="form-group">
                     <input type="password" name="pass" class="form-control" placeholder="Your Password*" required>
                 </div>
+
+                <div class="form-group">
+                    <label><b>Select Role*</b></label>
+                    <select name="role" class="form-control" required>
+                        <option value="">-- Select Role --</option>
+                        <option value="Buyer">Buyer</option>
+                        <option value="Seller">Seller</option>
+                        <option value="Agent">Agent</option>
+                    </select>
+                </div>
+
+
                 <button class="btn btn-success btn-block" name="reg" type="submit">Register</button>
             </form>
             <div class="text-center mt-3">

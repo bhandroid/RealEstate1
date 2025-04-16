@@ -16,10 +16,11 @@ if (isset($_POST['verify'])) {
         $email = $_SESSION['email'];
         $phone = $_SESSION['phone'];
         $pass = $_SESSION['pass']; // already hashed using password_hash()
+        $role = $_SESSION['role'];
 
         // ✅ Insert into new user table schema
-        $sql = "INSERT INTO user (name, email, phone_num, password) 
-                VALUES ('$name', '$email', '$phone', '$pass')";
+        $sql = "INSERT INTO user (name, email, phone_num, password,role) 
+                VALUES ('$name', '$email', '$phone', '$pass', '$role')";
         $result = mysqli_query($con, $sql);
 
         if ($result) {
