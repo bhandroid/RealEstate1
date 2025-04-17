@@ -154,7 +154,7 @@ include("config.php");
 		<!-----  Our Services  ---->
 		
         <!--	Recent Properties  -->
-<div class="full-row">
+        <div class="full-row">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -169,19 +169,19 @@ include("config.php");
                         $query = mysqli_query($con, "
                             SELECT 
                                 pl.*, 
-                                u.NAME AS seller_name, 
-                                u.ROLE AS seller_role, 
-                                u.PHONE_NUM, 
+                                u.name AS seller_name, 
+                                u.role AS seller_role, 
+                                u.phone_num, 
                                 (
-                                    SELECT IMAGE_URL 
-                                    FROM PROPERTY_IMAGE 
-                                    WHERE PROPERTY_ID = pl.PROPERTY_ID 
+                                    SELECT image_url 
+                                    FROM property_image 
+                                    WHERE property_id = pl.property_id 
                                     LIMIT 1
                                 ) AS image
-                            FROM PROPERTY_LISTINGS pl
-                            JOIN USER u ON pl.SELLER_ID = u.USER_ID
-                            WHERE pl.STATUS = 'available'
-                            ORDER BY pl.CREATED_AT DESC 
+                            FROM property_listings pl
+                            JOIN user u ON pl.seller_id = u.user_id
+                            WHERE pl.status = 'available'
+                            ORDER BY pl.created_at DESC 
                             LIMIT 9
                         ");
 
@@ -193,26 +193,26 @@ include("config.php");
                                 <div class="overlay-black overflow-hidden position-relative">
                                     <img src="<?php echo $row['image'] ? 'property_images/' . $row['image'] : 'images/default-property.jpg'; ?>" alt="Property Image">
                                     <div class="featured bg-success text-white">New</div>
-                                    <div class="sale bg-success text-white text-capitalize">For <?php echo $row['PROPERTY_TYPE']; ?></div>
+                                    <div class="sale bg-success text-white text-capitalize">For <?php echo $row['property_type']; ?></div>
                                     <div class="price text-primary">
-                                        <b>₹<?php echo number_format($row['PRICE']); ?></b>
-                                        <span class="text-white"><?php echo $row['SIZE_SQFT']; ?> Sqft</span>
+                                        <b>₹<?php echo number_format($row['price']); ?></b>
+                                        <span class="text-white"><?php echo $row['size_sqft']; ?> Sqft</span>
                                     </div>
                                 </div>
                                 <div class="featured-thumb-data shadow-one">
                                     <div class="p-3">
                                         <h5 class="text-secondary hover-text-success mb-2 text-capitalize">
-                                            <a href="propertydetail.php?pid=<?php echo $row['PROPERTY_ID']; ?>"><?php echo $row['TITLE']; ?></a>
+                                            <a href="propertydetail.php?pid=<?php echo $row['property_id']; ?>"><?php echo $row['title']; ?></a>
                                         </h5>
                                         <span class="location text-capitalize">
-                                            <i class="fas fa-map-marker-alt text-success"></i> <?php echo $row['LOCATION']; ?>
+                                            <i class="fas fa-map-marker-alt text-success"></i> <?php echo $row['location']; ?>
                                         </span>
                                     </div>
                                     <div class="bg-gray quantity px-4 pt-4">
                                         <ul>
-                                            <li><span><?php echo $row['SIZE_SQFT']; ?></span> Sqft</li>
-                                            <li><span><?php echo $row['BEDROOMS']; ?></span> Beds</li>
-                                            <li><span><?php echo $row['BATHROOMS']; ?></span> Baths</li>
+                                            <li><span><?php echo $row['size_sqft']; ?></span> Sqft</li>
+                                            <li><span><?php echo $row['bedrooms']; ?></span> Beds</li>
+                                            <li><span><?php echo $row['bathrooms']; ?></span> Baths</li>
                                         </ul>
                                     </div>
                                     <div class="p-4 d-inline-block w-100">
@@ -221,7 +221,7 @@ include("config.php");
                                         </div>
                                         <div class="float-right">
                                             <i class="far fa-calendar-alt text-success mr-1"></i> 
-                                            <?php echo date('d-m-Y', strtotime($row['CREATED_AT'])); ?>
+                                            <?php echo date('d-m-Y', strtotime($row['created_at'])); ?>
                                         </div> 
                                     </div>
                                 </div>
