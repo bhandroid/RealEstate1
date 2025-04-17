@@ -8,10 +8,11 @@ if (!isset($_SESSION['email'])) {
     header("location:login.php");
 }
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Seller') {
-    echo "Access denied. Only sellers can access this page.";
+if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Seller' && $_SESSION['role'] !== 'Agent')) {
+    echo "Access denied. Only sellers or agents can access this page.";
     exit();
 }
+
 
 $error = "";
 $msg = "";
@@ -44,7 +45,7 @@ if (isset($_POST['add'])) {
 
         if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
             $imgName = basename($_FILES['image']['name']);
-            $targetPath = "property_images/" . $imgName;
+            $targetPath = "admin/property/" . $imgName;
             move_uploaded_file($_FILES['image']['tmp_name'], $targetPath);
 
             $imgSql = "INSERT INTO PROPERTY_IMAGE (PROPERTY_ID, IMAGE_URL) VALUES ('$property_id', '$targetPath')";

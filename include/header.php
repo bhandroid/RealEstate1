@@ -12,7 +12,7 @@
                             <div class="top-contact float-right">
                                 <ul class="list-text-white d-table">
 								<li><i class="fas fa-user text-success mr-1"></i>
-								<?php  if(isset($_SESSION['user_id']))
+								<?php  if(isset($_SESSION['uid']))
 								{ ?>
 								<?= $_SESSION['email'] ?> | <a href="logout.php">Logout</a>
                                 <?php } else { ?>
