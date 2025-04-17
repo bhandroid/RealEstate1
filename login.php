@@ -18,9 +18,9 @@ if (isset($_POST['login'])) {
 		
 			if ($row && password_verify($pass, $row['password'])) {
 				// Password matched
-				$_SESSION['uid'] = $row['USER_ID'];
-				$_SESSION['email'] = $row['EMAIL'];
-				$_SESSION['role'] = $row['ROLE']; 
+				$_SESSION['uid'] = $row['user_id'];
+				$_SESSION['email'] = $row['email'];
+				$_SESSION['role'] = $row['role']; 
 				header("location: index.php");
 			} else {
 				$error = "<p class='alert alert-warning'>Email or Password does not match!</p>";
