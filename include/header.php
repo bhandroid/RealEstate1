@@ -45,7 +45,7 @@
                                         <li class="nav-item"> <a class="nav-link" href="agent.php">Agent</a> </li>
 
 										
-										<?php  if(isset($_SESSION['user_id']))
+										<?php  if(isset($_SESSION['uid']))
 										{ ?>
 										<li class="nav-item dropdown">
 											<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">My Account</a>
@@ -55,7 +55,7 @@
 												<li class="nav-item"> <a class="nav-link" href="feature.php">Your Property</a> </li>
 												<li class="nav-item"> <a class="nav-link" href="logout.php">Logout</a> </li>	
 											</ul>
-                                        </li>
+                                        </li>   
 										<?php } else { ?>
 										<li class="nav-item"> <a class="nav-link" href="login.php">Login/Register</a> </li>
 										<?php } ?>

@@ -3,7 +3,7 @@ ini_set('session.cache_limiter','public');
 session_cache_limiter(false);
 session_start();
 include("config.php");
-if(!isset($_SESSION['uemail']))
+if(!isset($_SESSION['email']))
 {
 	header("location:login.php");
 }
@@ -147,14 +147,11 @@ if(isset($_POST['insert']))
                             <div class="col-lg-5 col-md-12">
 								<?php 
 									$uid=$_SESSION['uid'];
-									$query=mysqli_query($con,"SELECT * FROM `user` WHERE uid='$uid'");
+									$query=mysqli_query($con,"SELECT * FROM `user` WHERE user_id='$uid'");
 									while($row=mysqli_fetch_array($query))
 									{
 								?>
-                                <div class="user-info mt-md-50"> <img src="admin/user/<?php echo $row['6'];?>" alt="userimage">
-                                    <div class="mb-4 mt-3">
-                                        
-                                    </div>
+                            
 									
                                     <div class="font-18">
                                         <div class="mb-1 text-capitalize"><b>Name:</b> <?php echo $row['1'];?></div>
