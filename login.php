@@ -13,11 +13,14 @@ if (isset($_POST['login'])) {
         $sql = "SELECT * FROM user WHERE email='$email'";
         $result = mysqli_query($con, $sql);
         $row = mysqli_fetch_assoc($result);
-
+			
+			
+		
 			if ($row && password_verify($pass, $row['password'])) {
 				// Password matched
-				$_SESSION['user_id'] = $row['user_id'];
-				$_SESSION['email'] = $row['email'];
+				$_SESSION['uid'] = $row['USER_ID'];
+				$_SESSION['email'] = $row['EMAIL'];
+				$_SESSION['role'] = $row['ROLE']; 
 				header("location: index.php");
 			} else {
 				$error = "<p class='alert alert-warning'>Email or Password does not match!</p>";

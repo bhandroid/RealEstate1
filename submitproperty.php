@@ -4,10 +4,11 @@ session_cache_limiter(false);
 session_start();
 include("config.php");
 
-if (!isset($_SESSION['uemail'])) {
+if (!isset($_SESSION['email'])) {
     header("location:login.php");
 }
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'agent') {
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Seller') {
     echo "Access denied. Only sellers can access this page.";
     exit();
 }
