@@ -1,30 +1,33 @@
 <?php
 include("config.php");
-$uid = $_GET['id'];
 
-// view code//
-$sql = "SELECT * FROM user where uid='$uid'";
+// ✅ Get user_id from URL and sanitize
+$user_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+// ✅ Optional: handle image deletion if column exists
+// $sql = "SELECT image FROM user WHERE user_id = $user_id";
+// $result = mysqli_query($con, $sql);
+// if ($row = mysqli_fetch_assoc($result)) {
+//     $img = $row['image'];
+//     if (!empty($img)) {
+//         @unlink("user/" . $img);
+//     }
+// }
+
+$msg = "";
+
+// ✅ Delete user by user_id
+$sql = "DELETE FROM user WHERE user_id = $user_id";
 $result = mysqli_query($con, $sql);
-while($row = mysqli_fetch_array($result))
-	{
-	  $img=$row["uimage"];
-	}
-@unlink('user/'.$img);
 
-//end view code
-$msg="";
-$sql = "DELETE FROM user WHERE uid = {$uid}";
-$result = mysqli_query($con, $sql);
-if($result == true)
-{
-	$msg="<p class='alert alert-success'>User Deleted</p>";
-	header("Location:userlist.php?msg=$msg");
-}
-else
-{
-	$msg="<p class='alert alert-warning'>User not Deleted</p>";
-		header("Location:userlist.php?msg=$msg");
+if ($result === true) {
+    $msg = "<p class='alert alert-success'>User Deleted</p>";
+} else {
+    $msg = "<p class='alert alert-warning'>User Not Deleted</p>";
 }
 
+// ✅ Redirect with message
+header("Location: userlist.php?msg=" . urlencode($msg));
 mysqli_close($con);
+exit();
 ?>

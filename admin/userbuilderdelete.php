@@ -1,30 +1,34 @@
 <?php
 include("config.php");
-$uid = $_GET['id'];
 
-// view code//
-$sql = "SELECT * FROM user where uid='$uid'";
+// Sanitize input
+$user_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+// OPTIONAL: If you have an 'image' column, uncomment this:
+/*
+$sql = "SELECT image FROM user WHERE user_id = $user_id";
 $result = mysqli_query($con, $sql);
-while($row = mysqli_fetch_array($result))
-	{
-	  $img=$row["uimage"];
-	}
-@unlink('user/'.$img);
+if ($row = mysqli_fetch_assoc($result)) {
+    $img = $row['image'];
+    if (!empty($img)) {
+        @unlink("user/" . $img);
+    }
+}
+*/
 
-//end view code
-$msg="";
-$sql = "DELETE FROM user WHERE uid = {$uid}";
+$msg = "";
+
+// Ensure only builder (seller) gets deleted
+$sql = "DELETE FROM user WHERE user_id = $user_id AND role = 'Builder'";
 $result = mysqli_query($con, $sql);
-if($result == true)
-{
-	$msg="<p class='alert alert-success'>Builder Deleted</p>";
-	header("Location:userbuilder.php?msg=$msg");
-}
-else
-{
-	$msg="<p class='alert alert-warning'>Builder not Deleted</p>";
-		header("Location:userbuilder.php?msg=$msg");
+
+if ($result === true) {
+    $msg = "<p class='alert alert-success'>Builder Deleted</p>";
+} else {
+    $msg = "<p class='alert alert-warning'>Builder Not Deleted</p>";
 }
 
+header("Location: userbuilder.php?msg=" . urlencode($msg));
 mysqli_close($con);
+exit();
 ?>
