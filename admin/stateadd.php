@@ -1,9 +1,9 @@
 <?php
 session_start();
 require("config.php"); 
-if(!isset($_SESSION['auser']))
-{
-	header("location:index.php");
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../login.php");
+    exit();
 }
 ///code
 $error="";

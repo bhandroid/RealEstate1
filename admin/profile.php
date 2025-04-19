@@ -3,9 +3,9 @@ session_start();
 require("config.php");
 ////code
  
-if(!isset($_SESSION['auser']))
-{
-	header("location:index.php");
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../login.php");
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -67,7 +67,7 @@ if(!isset($_SESSION['auser']))
 						<?php
 						
 						$id=$_SESSION['auser'];
-						$sql="select * from admin where auser='$id'";
+						$sql="select * from user where uid='$id'";
 						$result=mysqli_query($con,$sql);
 						while($row=mysqli_fetch_array($result))
 						{

@@ -1,14 +1,16 @@
 <?php
-// Initialize the session
 session_start();
- 
-// Unset all of the session variables
-$_SESSION = array();
- 
-// Destroy the session.
+
+// Only handle admin logout
+if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
+    unset($_SESSION['admin_email']);
+    unset($_SESSION['role']);
+    session_destroy();
+    header("Location: ../login.php"); // Go back to shared login page
+    exit();
+}
+
+// Fallback if no session or wrong role
 session_destroy();
- 
-// Redirect to login page
-header("location: index.php");
-exit;
-?>
+header("Location: ../index.php");
+exit();

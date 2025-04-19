@@ -1,6 +1,7 @@
-<?php 
+<?php
 session_start();
 include("config.php");
+
 $error = "";
 $msg = "";
 
@@ -9,27 +10,34 @@ if (isset($_POST['login'])) {
     $pass = $_POST['pass'];
 
     if (!empty($email) && !empty($pass)) {
-        // Fetch user by email
         $sql = "SELECT * FROM user WHERE email='$email'";
         $result = mysqli_query($con, $sql);
         $row = mysqli_fetch_assoc($result);
-			
-			
-		
-			if ($row && password_verify($pass, $row['password'])) {
-				// Password matched
-				$_SESSION['uid'] = $row['user_id'];
-				$_SESSION['email'] = $row['email'];
-				$_SESSION['role'] = $row['role']; 
-				header("location: index.php");
-			} else {
-				$error = "<p class='alert alert-warning'>Email or Password does not match!</p>";
-			}
+
+        if ($row && password_verify($pass, $row['password'])) {
+            $_SESSION['uid'] = $row['user_id'];
+            $role = strtolower($row['role']);
+
+            if ($role === 'admin') {
+                $_SESSION['admin_email'] = $row['email'];
+                $_SESSION['role'] = 'admin';
+                header("Location: admin/dashboard.php"); // ✅ Admin route
+            } else {
+                $_SESSION['email'] = $row['email'];
+                $_SESSION['role'] = 'user';
+                header("Location: index.php"); // ✅ User dashboard/home
+            }
+            exit();
+        } else {
+            $error = "<p class='alert alert-warning'>Email or Password does not match!</p>";
+        }
     } else {
-        $error = "<p class='alert alert-warning'>Please fill in all fields.</p>";
+        $error = "<p class='alert alert-warning'>Please fill in both fields!</p>";
     }
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">

@@ -1,11 +1,11 @@
 <?php
-session_start();
 require("config.php");
 ////code
  
-if(!isset($_SESSION['auser']))
-{
-	header("location:index.php");
+session_start();
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../login.php");
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -78,7 +78,7 @@ if(!isset($_SESSION['auser']))
 									</div>
 									<div class="dash-widget-info">
 										
-										<h3><?php $sql = "SELECT * FROM user WHERE utype = 'user'";
+										<h3><?php $sql = "SELECT * FROM user ";
 										$query = $con->query($sql);
                 						echo "$query->num_rows";?></h3>
 										
@@ -101,7 +101,7 @@ if(!isset($_SESSION['auser']))
 									</div>
 									<div class="dash-widget-info">
 										
-									<h3><?php $sql = "SELECT * FROM user WHERE utype = 'agent'";
+									<h3><?php $sql = "SELECT * FROM user WHERE role = 'agent'";
 										$query = $con->query($sql);
                 						echo "$query->num_rows";?></h3>
 										
@@ -124,7 +124,7 @@ if(!isset($_SESSION['auser']))
 									</div>
 									<div class="dash-widget-info">
 										
-									<h3><?php $sql = "SELECT * FROM user WHERE utype = 'builder'";
+									<h3><?php $sql = "SELECT * FROM user WHERE role= 'builder'";
 										$query = $con->query($sql);
                 						echo "$query->num_rows";?></h3>
 										
@@ -147,7 +147,7 @@ if(!isset($_SESSION['auser']))
 									</div>
 									<div class="dash-widget-info">
 										
-									<h3><?php $sql = "SELECT * FROM property";
+									<h3><?php $sql = "SELECT * FROM property_listings";
 										$query = $con->query($sql);
                 						echo "$query->num_rows";?></h3>
 										
@@ -174,7 +174,7 @@ if(!isset($_SESSION['auser']))
 									</div>
 									<div class="dash-widget-info">
 										
-									<h3><?php $sql = "SELECT * FROM property where type = 'apartment'";
+									<h3><?php $sql = "SELECT * FROM property_listings where property_type = 'apartment'";
 										$query = $con->query($sql);
                 						echo "$query->num_rows";?></h3>
 										
@@ -198,7 +198,7 @@ if(!isset($_SESSION['auser']))
 									</div>
 									<div class="dash-widget-info">
 										
-									<h3><?php $sql = "SELECT * FROM property where type = 'house'";
+									<h3><?php $sql = "SELECT * FROM property_listings where property_type = 'house'";
 										$query = $con->query($sql);
                 						echo "$query->num_rows";?></h3>
 										
