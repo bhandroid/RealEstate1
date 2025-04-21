@@ -24,7 +24,7 @@ if (isset($_POST['login'])) {
                 header("Location: admin/dashboard.php"); // ✅ Admin route
             } else {
                 $_SESSION['email'] = $row['email'];
-                $_SESSION['role'] = 'user';
+                $_SESSION['role'] = $row['role'];
                 header("Location: index.php"); // ✅ User dashboard/home
             }
             exit();
