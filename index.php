@@ -154,7 +154,7 @@ include("config.php");
 		<!-----  Our Services  ---->
 		
         <!--	Recent Properties  -->
-        <div class="full-row">
+<div class="full-row">
     <div class="container">
         <div class="row">
             <div class="col-md-12">

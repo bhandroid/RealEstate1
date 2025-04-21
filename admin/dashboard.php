@@ -48,7 +48,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
             <!-- /Page Header -->
 
             <div class="row">
-                <!-- Registered Users (excluding Admins) -->
+                <!-- Registered Users -->
                 <div class="col-xl-3 col-sm-6 col-12">
                     <div class="card">
                         <div class="card-body">
@@ -217,6 +217,29 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                         </div>
                     </div>
                 </div>
+
+                <!-- View Tickets -->
+                <div class="col-xl-3 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="dash-widget-header">
+                                <span class="dash-widget-icon bg-dark"><i class="fe fe-message-square"></i></span>
+                            </div>
+                            <div class="dash-widget-info">
+                                <h3>
+                                    <?php
+                                    $sql = "SELECT COUNT(*) AS total_tickets FROM tickets";
+                                    $query = $con->query($sql);
+                                    echo $query->fetch_assoc()['total_tickets'];
+                                    ?>
+                                </h3>
+                                <h6 class="text-muted">Support Tickets</h6>
+                                <a href="view_tickets.php" class="btn btn-sm btn-outline-dark mt-2">View Tickets</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>

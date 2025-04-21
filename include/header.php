@@ -13,7 +13,7 @@
                         <ul class="list-text-white d-table">
                             <li><i class="fas fa-user text-success mr-1"></i>
                             <?php  
-                            if (isset($_SESSION['uid']) && isset($_SESSION['role']) && $_SESSION['role'] === 'user') { ?>
+                            if (isset($_SESSION['uid']) && isset($_SESSION['role'])) { ?>
                                 <?= $_SESSION['email'] ?> | <a href="logout.php">Logout</a>
                             <?php } else { ?>
                                 <a href="login.php">Login</a>&nbsp;&nbsp; | 
@@ -47,7 +47,7 @@
                                 <li class="nav-item"> <a class="nav-link" href="agent.php">Agent</a> </li>
 
                                 <?php  
-                                if (isset($_SESSION['uid']) && isset($_SESSION['role']) && $_SESSION['role'] === 'user') {
+                                if (isset($_SESSION['uid']) && isset($_SESSION['role'])) {
                                 ?>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -63,7 +63,14 @@
                                     <li class="nav-item"> <a class="nav-link" href="login.php">Login/Register</a> </li>
                                 <?php } ?>
                             </ul>
+
+                            <!-- Submit Property Button -->
                             <a class="btn btn-success d-none d-xl-block" style="border-radius:30px;" href="submitproperty.php">Submit Property</a> 
+
+                            <!-- 🎫 Raise Ticket Button (Only for logged-in users) -->
+                            <?php if (isset($_SESSION['uid'])): ?>
+                                <a class="btn btn-warning d-none d-xl-block ml-2" style="border-radius:30px;" href="raise_ticket.php">🎫 Raise Ticket</a>
+                            <?php endif; ?>
                         </div>
                     </nav>
                 </div>
