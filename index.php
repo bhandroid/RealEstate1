@@ -191,7 +191,7 @@ include("config.php");
                         <div class="col-md-6 col-lg-4">
                             <div class="featured-thumb hover-zoomer mb-4">
                                 <div class="overlay-black overflow-hidden position-relative">
-                                    <img src="<?php echo $row['image'] ? 'property_images/' . $row['image'] : 'images/default-property.jpg'; ?>" alt="Property Image">
+                                    <img src="<?php echo $row['image'] ? 'admin/property/' . $row['image'] : 'images/default-property.jpg'; ?>" alt="Property Image">
                                     <div class="featured bg-success text-white">New</div>
                                     <div class="sale bg-success text-white text-capitalize">For <?php echo $row['property_type']; ?></div>
                                     <div class="price text-primary">

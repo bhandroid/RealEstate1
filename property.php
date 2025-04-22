@@ -32,6 +32,7 @@ $role = strtolower($_SESSION['role'] ?? '');
                                 (SELECT image_url FROM property_image WHERE property_image.property_id = property_listings.property_id LIMIT 1) AS image_url 
                                 FROM property_listings JOIN user ON property_listings.seller_id = user.user_id 
                                 WHERE property_listings.status = 'available'");
+                            
 
                             while($row = mysqli_fetch_array($query)) {
                                 $property_id = $row['property_id'];
@@ -82,9 +83,7 @@ $role = strtolower($_SESSION['role'] ?? '');
                             <?php } ?>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <?php include("sidebar.php"); ?>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -96,5 +95,6 @@ $role = strtolower($_SESSION['role'] ?? '');
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/custom.js"></script>
+
 </body>
 </html>
