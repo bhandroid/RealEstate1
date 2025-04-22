@@ -14,7 +14,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <title>LM Homes | Builder List</title>
+    <title>LM Homes | Seller List</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -44,10 +44,10 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
         <div class="page-header">
             <div class="row">
                 <div class="col">
-                    <h3 class="page-title">Builder</h3>
+                    <h3 class="page-title">Seller</h3>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Builder</li>
+                        <li class="breadcrumb-item active">Seller</li>
                     </ul>
                 </div>
             </div>
@@ -58,7 +58,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Builder List</h4>
+                        <h4 class="card-title">Seller List</h4>
                         <?php if (isset($_GET['msg'])) echo $_GET['msg']; ?>
                     </div>
                     <div class="card-body">
@@ -76,19 +76,19 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                             </thead>
                             <tbody>
                                 <?php
-                                $query = mysqli_query($con, "SELECT * FROM user WHERE role = 'Builder'");
+                                $query = mysqli_query($con, "SELECT * FROM user WHERE role = 'Seller'");
                                 $cnt = 1;
                                 while ($row = mysqli_fetch_assoc($query)) {
                                 ?>
                                 <tr>
                                     <td><?php echo $cnt++; ?></td>
-                                    <td><?php echo $row['name']; ?></td>
-                                    <td><?php echo $row['email']; ?></td>
-                                    <td><?php echo $row['phone_num']; ?></td>
+                                    <td><?php echo htmlspecialchars($row['name']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['email']); ?></td>
+                                    <td><?php echo htmlspecialchars($row['phone_num']); ?></td>
                                     <td><?php echo ucfirst($row['role']); ?></td>
                                     <td><?php echo $row['date_of_creation']; ?></td>
                                     <td>
-                                        <a href="userbuilderdelete.php?id=<?php echo $row['user_id']; ?>">
+                                        <a href="usersellerdelete.php?id=<?php echo $row['user_id']; ?>">
                                             <button class="btn btn-danger btn-sm">Delete</button>
                                         </a>
                                     </td>

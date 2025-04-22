@@ -76,18 +76,11 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                         <li><a href="adminlist.php"> Admin </a></li>
                         <li><a href="userlist.php"> Users </a></li>
                         <li><a href="useragent.php"> Agent </a></li>
-                        <li><a href="userbuilder.php"> Builder </a></li>
+                        <li><a href="userbuilder.php"> Seller </a></li>
                     </ul>
                 </li>
 
-                <li class="menu-title"><span>State & City</span></li>
-                <li class="submenu">
-                    <a href="#"><i class="fe fe-location"></i> <span>State & City</span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a href="stateadd.php"> State </a></li>
-                        <li><a href="cityadd.php"> City </a></li>
-                    </ul>
-                </li>
+                
 
                 <li class="menu-title"><span>Property Management</span></li>
                 <li class="submenu">
