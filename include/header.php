@@ -3,7 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <ul class="top-contact list-text-white  d-table">
+                    <ul class="top-contact list-text-white d-table">
                         <li><a href="#"><i class="fas fa-phone-alt text-success mr-1"></i>+1 243-765-4321</a></li>
                         <li><a href="#"><i class="fas fa-envelope text-success mr-1"></i>codeastro@realestatest.com</a></li>
                     </ul>
@@ -44,7 +44,16 @@
                                 <li class="nav-item"> <a class="nav-link" href="about.php">About</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="contact.php">Contact</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="property.php">Properties</a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="agent.php">Agent</a> </li>
+
+                                <!-- ✅ My Properties tab for Sellers/Agents only -->
+                                <?php if (isset($_SESSION['role']) && in_array(strtolower($_SESSION['role']), ['seller', 'agent'])): ?>
+                                    <li class="nav-item"> <a class="nav-link" href="my_properties.php">MyProperties</a> </li>
+                                <?php endif; ?>
+
+                                <!-- ✅ Favorites tab -->
+                                <?php if (isset($_SESSION['uid'])): ?>
+                                    <li class="nav-item"> <a class="nav-link" href="favorites.php">Favorites</a> </li>
+                                <?php endif; ?>
 
                                 <?php  
                                 if (isset($_SESSION['uid']) && isset($_SESSION['role'])) {
@@ -67,7 +76,7 @@
                             <!-- Submit Property Button -->
                             <a class="btn btn-success d-none d-xl-block" style="border-radius:30px;" href="submitproperty.php">Submit Property</a> 
 
-                            <!-- 🎫 Raise Ticket Button (Only for logged-in users) -->
+                            <!-- 🎫 Raise Ticket Button -->
                             <?php if (isset($_SESSION['uid'])): ?>
                                 <a class="btn btn-warning d-none d-xl-block ml-2" style="border-radius:30px;" href="raise_ticket.php">🎫 Raise Ticket</a>
                             <?php endif; ?>
