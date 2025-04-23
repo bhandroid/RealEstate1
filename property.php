@@ -59,25 +59,6 @@ $role = strtolower($_SESSION['role'] ?? '');
                                             </span>
                                         </div>
                                         <div class="px-4 pb-4 d-inline-block w-100">
-<<<<<<< Updated upstream
-                                            <div class="float-left text-capitalize">
-                                                <i class="fas fa-user text-success mr-1"></i>By : <?php echo htmlspecialchars($row['uname']); ?>
-                                            </div>
-                                            <div class="float-right">
-                                                <i class="far fa-calendar-alt text-success mr-1"></i> <?php echo isset($row['created_at']) ? date('d-m-Y', strtotime($row['created_at'])) : 'N/A'; ?>
-                                            </div>
-                                        </div>
-                                        <div class="px-4 pb-4">
-                                            <?php 
-                                            if (in_array($role, ['buyer', 'agent'])) {
-                                                echo "<a href='appointment.php?property_id=$property_id' class='btn btn-primary btn-block'>🗕️ Book Appointment</a>";
-                                            }
-                                            echo "<form method='POST' action='favorite_add.php' class='mt-2'>
-                                                    <input type='hidden' name='property_id' value='$property_id'>
-                                                    <button type='submit' class='btn btn-outline-danger btn-block'>❤️ Add to Favorites</button>
-                                                  </form>";
-                                            ?>
-=======
                                             <div class="float-left text-capitalize"><i class="fas fa-user text-success mr-1"></i>By : <?php echo $row['uname'];?></div>
                                             <div class="float-right">
                                                 <i class="far fa-calendar-alt text-success mr-1"></i> 
@@ -88,7 +69,6 @@ $role = strtolower($_SESSION['role'] ?? '');
                                                 ?>
                                             </div>
 
->>>>>>> Stashed changes
                                         </div>
                                     </div>
                                 </div>
