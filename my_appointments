@@ -9,7 +9,7 @@ $role = ucfirst(strtolower($_SESSION['role'] ?? ''));
 $property_id = $_GET['property_id'] ?? null;
 
 if (!$user_id || !$property_id || !in_array(strtolower($role), ['seller', 'agent'])) {
-    die("❌ Access denied.");
+    die(" Access denied.");
 }
 
 // Allow seller or agent to view their own properties
@@ -17,11 +17,11 @@ $check = mysqli_query($con, "SELECT seller_id FROM property_listings WHERE prope
 $row = mysqli_fetch_assoc($check);
 
 if (!$row) {
-    die("❌ Property not found.");
+    die(" Property not found.");
 }
 
 if ((int)$row['seller_id'] !== (int)$user_id) {
-    die("❌ You can only view appointments for properties you posted.");
+    die(" You can only view appointments for properties you posted.");
 }
 
 // Handle form submission to update status

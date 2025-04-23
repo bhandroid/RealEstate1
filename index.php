@@ -9,7 +9,7 @@ include("config.php");
 <html lang="en">
 
 <head>
-<!-- FOR MORE PROJECTS visit: codeastro.com -->
+<!---->
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -65,7 +65,7 @@ include("config.php");
                     <div class="col-lg-12">
                         <div class="text-white">
                             <h1 class="mb-4"><span class="text-success">Let us</span><br>
-                            Guide you Home</h1><!-- FOR MORE PROJECTS visit: codeastro.com -->
+                            Guide you Home</h1><!---->
                             <form method="post" action="propertygrid.php">
                                 <div class="row">
                                     <div class="col-md-6 col-lg-2">
@@ -114,7 +114,7 @@ include("config.php");
         <div class="full-row bg-gray">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12"><!-- FOR MORE PROJECTS visit: codeastro.com -->
+                    <div class="col-lg-12"><!---->
                         <h2 class="text-secondary double-down-line text-center mb-5">What We Do</h2></div>
                 </div>
                 <div class="text-box-one">
@@ -389,7 +389,7 @@ include("config.php");
                 <div class="row">
                     <div class="col-lg-12">
                         <h2 class="text-secondary double-down-line text-center mb-5">Popular Places</h2></div>
-                </div><!-- FOR MORE PROJECTS visit: codeastro.com -->
+                </div><!---->
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-md-6 col-lg-3 pb-1">
@@ -406,7 +406,7 @@ include("config.php");
 												echo $total;?> Properties Listed</span> </div>
 									<?php } ?>
                             </div>
-                        </div><!-- FOR MORE PROJECTS visit: codeastro.com -->
+                        </div><!---->
                         <div class="col-md-6 col-lg-3 pb-1">
                             <div class="overflow-hidden position-relative overlay-secondary hover-zoomer mx-n13 z-index-9"> <img src="images/thumbnail4/2.jpg" alt="">
                                 <div class="text-white xy-center z-index-9 position-absolute text-center w-100">
@@ -422,7 +422,7 @@ include("config.php");
 									<?php } ?>
                             </div>
                         </div>
-                        <div class="col-md-6 col-lg-3 pb-1"><!-- FOR MORE PROJECTS visit: codeastro.com -->
+                        <div class="col-md-6 col-lg-3 pb-1"><!---->
                             <div class="overflow-hidden position-relative overlay-secondary hover-zoomer mx-n13 z-index-9"> <img src="images/thumbnail4/3.jpg" alt="">
                                 <div class="text-white xy-center z-index-9 position-absolute text-center w-100">
                                     <?php
@@ -451,7 +451,7 @@ include("config.php");
 												echo $total;?> Properties Listed</span> </div>
 									<?php } ?>
                             </div>
-                        </div><!-- FOR MORE PROJECTS visit: codeastro.com -->
+                        </div><!---->
                     </div>
                 </div>
             </div>
