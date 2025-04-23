@@ -1,0 +1,105 @@
+<?php
+session_start();
+include("config.php");
+
+$user_id = $_SESSION['uid'] ?? null;
+$role = $_SESSION['role'] ?? '';
+$property_id = $_GET['property_id'] ?? null;
+
+if (!$user_id || !$property_id || !in_array($role, ['Seller', 'Agent'])) {
+    die("❌ Access denied.");
+}
+
+$check = mysqli_query($con, "SELECT * FROM property_listings WHERE property_id = $property_id AND seller_id = $user_id");
+$property = mysqli_fetch_assoc($check);
+
+if (!$property) {
+    die("❌ Property not found or not owned by you.");
+}
+
+// Update Property Details
+if (isset($_POST['update'])) {
+    $title = $_POST['title'];
+    $description = $_POST['description'];
+    $price = $_POST['price'];
+    $location = $_POST['location'];
+
+    $stmt = $con->prepare("UPDATE property_listings SET title = ?, description = ?, price = ?, location = ? WHERE property_id = ?");
+    $stmt->bind_param("ssdsi", $title, $description, $price, $location, $property_id);
+    $stmt->execute();
+    $msg = "✅ Property updated successfully.";
+}
+
+// Handle Add More Images
+if (isset($_POST['add_image']) && isset($_FILES['new_image']['name'])) {
+    $image_name = $_FILES['new_image']['name'];
+    $image_tmp = $_FILES['new_image']['tmp_name'];
+    $target_dir = "admin/property/";
+    $target_file = $target_dir . basename($image_name);
+
+    if (move_uploaded_file($image_tmp, $target_file)) {
+        $stmt = $con->prepare("INSERT INTO property_image (property_id, image_url) VALUES (?, ?)");
+        $stmt->bind_param("is", $property_id, $image_name);
+        $stmt->execute();
+        $msg = "✅ Image uploaded successfully.";
+    } else {
+        $msg = "❌ Failed to upload image.";
+    }
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Property with Images</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body class="container mt-5">
+<h3>Edit Property #<?= $property_id ?></h3>
+<?php if (isset($msg)) echo "<div class='alert alert-info'>$msg</div>"; ?>
+
+<!-- ✅ Property Edit Form -->
+<form method="POST">
+    <div class="form-group">
+        <label>Title:</label>
+        <input type="text" name="title" class="form-control" value="<?= htmlspecialchars($property['title']) ?>" required>
+    </div>
+    <div class="form-group">
+        <label>Description:</label>
+        <textarea name="description" class="form-control" required><?= htmlspecialchars($property['description']) ?></textarea>
+    </div>
+    <div class="form-group">
+        <label>Price:</label>
+        <input type="number" name="price" class="form-control" value="<?= $property['price'] ?>" required>
+    </div>
+    <div class="form-group">
+        <label>Location:</label>
+        <input type="text" name="location" class="form-control" value="<?= htmlspecialchars($property['location']) ?>" required>
+    </div>
+    <button type="submit" name="update" class="btn btn-primary">Update Property</button>
+</form>
+
+<hr>
+
+<!-- ✅ Add More Images -->
+<h4>Add More Images</h4>
+<form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <input type="file" name="new_image" required>
+    </div>
+    <button type="submit" name="add_image" class="btn btn-secondary">Upload Image</button>
+</form>
+
+<!-- ✅ Show Existing Images -->
+<h5 class="mt-4">Uploaded Images:</h5>
+<div class="row">
+<?php
+$image_result = mysqli_query($con, "SELECT * FROM property_image WHERE property_id = $property_id");
+while ($img = mysqli_fetch_assoc($image_result)):
+?>
+    <div class="col-md-3 mb-3">
+        <img src="admin/property/<?= htmlspecialchars($img['image_url']) ?>" class="img-thumbnail">
+    </div>
+<?php endwhile; ?>
+</div>
+</body>
+</html>

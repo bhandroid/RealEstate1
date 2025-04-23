@@ -29,10 +29,8 @@ $result = mysqli_query($con, "
 </head>
 <body>
 
-<!-- ✅ Include your header here -->
 <?php include("include/header.php"); ?>
 
-<!-- 🏠 Page Content -->
 <div class="container mt-5">
     <h3 class="mb-4">🏠 My Posted Properties</h3>
 
@@ -56,6 +54,9 @@ $result = mysqli_query($con, "
                     <a href="view_appointments.php?property_id=<?= $row['property_id'] ?>" class="btn btn-info btn-sm">
                         📋 View Appointments
                     </a>
+                    <a href="edit_property.php?property_id=<?= $row['property_id'] ?>" class="btn btn-warning btn-sm ml-2">
+                        ✏️ Edit Property
+                    </a>
                 </div>
             </div>
         </div>
@@ -63,10 +64,8 @@ $result = mysqli_query($con, "
     </div>
 </div>
 
-<!-- ✅ Include your footer here -->
 <?php include("include/footer.php"); ?>
 
-<!-- JS Scripts -->
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/custom.js"></script>
