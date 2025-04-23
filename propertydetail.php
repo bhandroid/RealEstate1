@@ -24,20 +24,20 @@ $row = mysqli_fetch_assoc($query);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?php echo htmlspecialchars($row['TITLE']); ?> - Property Details</title>
+    <title><?php echo htmlspecialchars($row['title']); ?> - Property Details</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <?php include("include/header.php"); ?>
 <div class="container mt-4">
-    <h2><?php echo htmlspecialchars($row['TITLE']); ?></h2>
-    <p><strong>Location:</strong> <?php echo htmlspecialchars($row['LOCATION']); ?></p>
-    <p><strong>Price:</strong> $<?php echo number_format($row['PRICE'], 2); ?></p>
-    <p><strong>Type:</strong> <?php echo htmlspecialchars($row['PROPERTY_TYPE']); ?></p>
-    <p><strong>Size:</strong> <?php echo $row['SIZE_SQFT']; ?> Sqft</p>
-    <p><strong>Bedrooms:</strong> <?php echo $row['BEDROOMS']; ?> | <strong>Bathrooms:</strong> <?php echo $row['BATHROOMS']; ?></p>
-    <p><strong>Description:</strong><br><?php echo nl2br(htmlspecialchars($row['DESCRIPTION'])); ?></p>
+    <h2><?php echo htmlspecialchars($row['title']); ?></h2>
+    <p><strong>Location:</strong> <?php echo htmlspecialchars($row['location']); ?></p>
+    <p><strong>Price:</strong> $<?php echo number_format($row['price'], 2); ?></p>
+    <p><strong>Type:</strong> <?php echo htmlspecialchars($row['property_type']); ?></p>
+    <p><strong>Size:</strong> <?php echo $row['size_sqft']; ?> Sqft</p>
+    <p><strong>Bedrooms:</strong> <?php echo $row['bedrooms']; ?> | <strong>Bathrooms:</strong> <?php echo $row['bathrooms']; ?></p>
+    <p><strong>Description:</strong><br><?php echo nl2br(htmlspecialchars($row['description'])); ?></p>
 
     <h4 class="mt-4">Seller Contact Info</h4>
     <p><strong>Name:</strong> <?php echo htmlspecialchars($row['uname']); ?></p>
@@ -116,7 +116,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === 'Buyer') {
 if (
     isset($_SESSION['user_id']) &&
     $_SESSION['role'] === 'Seller' &&
-    $_SESSION['user_id'] == $row['SELLER_ID']
+    $_SESSION['user_id'] == $row['seller_id']
 ) {
     $offers = mysqli_query($con, "
         SELECT offer.*, user.name AS buyer_name, user.email AS buyer_email

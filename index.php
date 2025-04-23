@@ -72,24 +72,13 @@ include("config.php");
                                         <div class="form-group">
                                             <select class="form-control" name="type">
                                                 <option value="">Select Type</option>
-												<option value="apartment">Apartment</option>
-												<option value="flat">Flat</option>
-												<option value="building">Building</option>
-												<option value="house">House</option>
-												<option value="villa">Villa</option>
-												<option value="office">Office</option>
+												<option value="apartment">Rent</option>
+												<option value="flat">Sale</option>
+												
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 col-lg-2">
-                                        <div class="form-group">
-                                            <select class="form-control" name="stype">
-                                                <option value="">Select Status</option>
-												<option value="rent">Rent</option>
-												<option value="sale">Sale</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="col-md-8 col-lg-6">
                                         <div class="form-group">
                                             <input type="text" class="form-control" name="city" placeholder="Enter City" required>
@@ -349,5 +338,4 @@ include("config.php");
 <script src="js/jquery.cookie.js"></script> 
 <script src="js/custom.js"></script>
 </body>
-
 </html>
