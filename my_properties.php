@@ -6,10 +6,11 @@ $role = $_SESSION['role'] ?? '';
 $user_id = $_SESSION['uid'] ?? null;
 
 if (!$user_id || !in_array($role, ['Seller', 'Agent'])) {
-    $_SESSION['error'] = " Access Denied. You must be a Seller or Agent.";
+    $_SESSION['error'] = "Access Denied. You must be a Seller or Agent.";
     header("Location: dashboard.php");
     exit();
 }
+
 $result = mysqli_query($con, "
     SELECT p.*, 
         (SELECT image_url FROM property_image WHERE property_id = p.property_id LIMIT 1) AS image_url 
@@ -17,6 +18,7 @@ $result = mysqli_query($con, "
     WHERE p.seller_id = $user_id
 ");
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,6 +58,9 @@ $result = mysqli_query($con, "
                     </a>
                     <a href="edit_property.php?property_id=<?= $row['property_id'] ?>" class="btn btn-warning btn-sm ml-2">
                         ✏️ Edit Property
+                    </a>
+                    <a href="view_offers.php?property_id=<?= $row['property_id'] ?>" class="btn btn-success btn-sm mt-2">
+                        💰 View Offers
                     </a>
                 </div>
             </div>
