@@ -9,7 +9,7 @@ include("config.php");
 <html lang="en">
 
 <head>
-<!---->
+<!-- FOR MORE PROJECTS visit: codeastro.com -->
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -65,7 +65,7 @@ include("config.php");
                     <div class="col-lg-12">
                         <div class="text-white">
                             <h1 class="mb-4"><span class="text-success">Let us</span><br>
-                            Guide you Home</h1><!---->
+                            Guide you Home</h1><!-- FOR MORE PROJECTS visit: codeastro.com -->
                             <form method="post" action="propertygrid.php">
                                 <div class="row">
                                     <div class="col-md-6 col-lg-2">
@@ -114,7 +114,7 @@ include("config.php");
         <div class="full-row bg-gray">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12"><!---->
+                    <div class="col-lg-12"><!-- FOR MORE PROJECTS visit: codeastro.com -->
                         <h2 class="text-secondary double-down-line text-center mb-5">What We Do</h2></div>
                 </div>
                 <div class="text-box-one">
@@ -315,185 +315,7 @@ include("config.php");
         
         <!--	How It Work -->
         
-        <!--	Achievement
-        ============================================================-->
-        <div class="full-row overlay-secondary" style="background-image: url('images/breadcromb.jpg'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
-            <div class="container">
-                <div class="fact-counter">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="count wow text-center  mb-sm-50" data-wow-duration="300ms"> <i class="flaticon-house flat-large text-white" aria-hidden="true"></i>
-								<?php
-										$query=mysqli_query($con,"SELECT count(pid) FROM property");
-											while($row=mysqli_fetch_array($query))
-												{
-										?>
-                                <div class="count-num text-success my-4" data-speed="3000" data-stop="<?php 
-												$total = $row[0];
-												echo $total;?>">0</div>
-								<?php } ?>
-                                <div class="text-white h5">Property Available</div>
-                            </div>
-                        </div>
-						<div class="col-md-3">
-                            <div class="count wow text-center  mb-sm-50" data-wow-duration="300ms"> <i class="flaticon-house flat-large text-white" aria-hidden="true"></i>
-								<?php
-										$query=mysqli_query($con,"SELECT count(pid) FROM property_listing where property_type='sale'");
-											while($row=mysqli_fetch_array($query))
-												{
-										?>
-                                <div class="count-num text-success my-4" data-speed="3000" data-stop="<?php 
-												$total = $row[0];
-												echo $total;?>">0</div>
-								<?php } ?>
-                                <div class="text-white h5">Sale Property Available</div>
-                            </div>
-                        </div>
-						<div class="col-md-3">
-                            <div class="count wow text-center  mb-sm-50" data-wow-duration="300ms"> <i class="flaticon-house flat-large text-white" aria-hidden="true"></i>
-								<?php
-										$query=mysqli_query($con,"SELECT count(pid) FROM property_listing where property_type='rent'");
-											while($row=mysqli_fetch_array($query))
-												{
-										?>
-                                <div class="count-num text-success my-4" data-speed="3000" data-stop="<?php 
-												$total = $row[0];
-												echo $total;?>">0</div>
-								<?php } ?>
-                                <div class="text-white h5">Rent Property Available</div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="count wow text-center  mb-sm-50" data-wow-duration="300ms"> <i class="flaticon-man flat-large text-white" aria-hidden="true"></i>
-                                <?php
-										$query=mysqli_query($con,"SELECT count(uid) FROM user");
-											while($row=mysqli_fetch_array($query))
-												{
-										?>
-                                <div class="count-num text-success my-4" data-speed="3000" data-stop="<?php 
-												$total = $row[0];
-												echo $total;?>">0</div>
-								<?php } ?>
-                                <div class="text-white h5">Registered Users</div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!--	Popular Place -->
-        <div class="full-row bg-gray">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2 class="text-secondary double-down-line text-center mb-5">Popular Places</h2></div>
-                </div><!---->
-                <div class="col-lg-12">
-                    <div class="row">
-                        <div class="col-md-6 col-lg-3 pb-1">
-                            <div class="overflow-hidden position-relative overlay-secondary hover-zoomer mx-n13 z-index-9"> <img src="images/thumbnail4/1.jpg" alt="">
-                                <div class="text-white xy-center z-index-9 position-absolute text-center w-100">
-									<?php
-										$query=mysqli_query($con,"SELECT count(state), property.* FROM property where city='Olisphis'");
-											while($row=mysqli_fetch_array($query))
-												{
-										?>
-                                    <h4 class="hover-text-success text-capitalize"><a href="stateproperty.php?id=<?php echo $row['17']?>"><?php echo $row['state'];?></a></h4>
-                                    <span><?php 
-												$total = $row[0];
-												echo $total;?> Properties Listed</span> </div>
-									<?php } ?>
-                            </div>
-                        </div><!---->
-                        <div class="col-md-6 col-lg-3 pb-1">
-                            <div class="overflow-hidden position-relative overlay-secondary hover-zoomer mx-n13 z-index-9"> <img src="images/thumbnail4/2.jpg" alt="">
-                                <div class="text-white xy-center z-index-9 position-absolute text-center w-100">
-									<?php
-										$query=mysqli_query($con,"SELECT count(state), property.* FROM property where city='Awrerton'");
-											while($row=mysqli_fetch_array($query))
-												{
-										?>
-                                    <h4 class="hover-text-success text-capitalize"><a href="stateproperty.php?id=<?php echo $row['17']?>"><?php echo $row['state'];?></a></h4>
-                                    <span><?php 
-												$total = $row[0];
-												echo $total;?> Properties Listed</span> </div>
-									<?php } ?>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 pb-1"><!---->
-                            <div class="overflow-hidden position-relative overlay-secondary hover-zoomer mx-n13 z-index-9"> <img src="images/thumbnail4/3.jpg" alt="">
-                                <div class="text-white xy-center z-index-9 position-absolute text-center w-100">
-                                    <?php
-										$query=mysqli_query($con,"SELECT count(state), property.* FROM property where city='Floson'");
-											while($row=mysqli_fetch_array($query))
-												{
-										?>
-                                    <h4 class="hover-text-success text-capitalize"><a href="stateproperty.php?id=<?php echo $row['17']?>"><?php echo $row['state'];?></a></h4>
-                                    <span><?php 
-												$total = $row[0];
-												echo $total;?> Properties Listed</span> </div>
-									<?php } ?>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-3 pb-1">
-                            <div class="overflow-hidden position-relative overlay-secondary hover-zoomer mx-n13 z-index-9"> <img src="images/thumbnail4/4.jpg" alt="">
-                                <div class="text-white xy-center z-index-9 position-absolute text-center w-100">
-                                    <?php
-										$query=mysqli_query($con,"SELECT count(state), property.* FROM property where city='Ulmore'");
-											while($row=mysqli_fetch_array($query))
-												{
-										?>
-                                    <h4 class="hover-text-success text-capitalize"><a href="stateproperty.php?id=<?php echo $row['17']?>"><?php echo $row['state'];?></a></h4>
-                                    <span><?php 
-												$total = $row[0];
-												echo $total;?> Properties Listed</span> </div>
-									<?php } ?>
-                            </div>
-                        </div><!---->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--	Popular Places -->
-		
-		<!--	Testonomial -->
-		<div class="full-row">
-            <div class="container">
-                <div class="row">
-					<div class="col-lg-12">
-						<div class="content-sidebar p-4">
-							<div class="mb-3 col-lg-12">
-								<h4 class="double-down-line-left text-secondary position-relative pb-4 mb-4">Testimonial</h4>
-									<div class="recent-review owl-carousel owl-dots-gray owl-dots-hover-success">
-									
-										<?php
-													
-												$query=mysqli_query($con,"select feedback.*, user.* from feedback,user where feedback.uid=user.uid and feedback.status='1'");
-												while($row=mysqli_fetch_array($query))
-													{
-										?>
-										<div class="item">
-											<div class="p-4 bg-success down-angle-white position-relative">
-												<p class="text-white"><i class="fas fa-quote-left mr-2 text-white"></i><?php echo $row['2']; ?>. <i class="fas fa-quote-right mr-2 text-white"></i></p>
-											</div>
-											<div class="p-2 mt-4">
-												<span class="text-success d-table text-capitalize"><?php echo $row['uname']; ?></span> <span class="text-capitalize"><?php echo $row['utype']; ?></span>
-											</div>
-										</div>
-										<?php }  ?>
-										
-									</div>
-							</div>
-						 </div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!--	Testonomial -->
-		
-		
+      
         <!--	Footer   start-->
 		<?php include("include/footer.php");?>
 		<!--	Footer   start-->
