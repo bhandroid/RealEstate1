@@ -349,5 +349,4 @@ include("config.php");
 <script src="js/jquery.cookie.js"></script> 
 <script src="js/custom.js"></script>
 </body>
-
 </html>
