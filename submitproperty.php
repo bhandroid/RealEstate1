@@ -145,9 +145,7 @@ if (isset($_POST['add'])) {
                                     <label>Property Type</label>
                                     <select name="property_type" class="form-control" id="property_type" required>
                                         <option value="">Select</option>
-                                        <option value="Apartment">Apartment</option>
-                                        <option value="House">House</option>
-                                        <option value="Villa">Villa</option>
+                                        <option value="Sale">Sale</option>
                                         <option value="Rental">Rental</option>
                                     </select>
                                 </div>

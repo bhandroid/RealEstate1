@@ -61,6 +61,10 @@ $role = strtolower($_SESSION['role'] ?? '');
                                             <span class="location text-capitalize">
                                                 <i class="fas fa-map-marker-alt text-success"></i> <?php echo htmlspecialchars($row['location']); ?>
                                             </span>
+                                            <br>
+                                            <span class="type text-capitalize">
+                                                <i class="fas fa-map-marker-alt text-success"></i> <?php echo htmlspecialchars($row['property_type']); ?>
+                                            </span>
                                         </div>
                                         <div class="px-4 pb-4 d-inline-block w-100">
                                             <div class="float-left text-capitalize"><i class="fas fa-user text-success mr-1"></i>By : <?php echo $row['uname'];?></div>
