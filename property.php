@@ -31,7 +31,7 @@ $role = strtolower($_SESSION['role'] ?? '');
                             $query = mysqli_query($con, "SELECT property_listings.*, user.name AS uname, user.role AS utype, 
                                 (SELECT image_url FROM property_image WHERE property_image.property_id = property_listings.property_id LIMIT 1) AS image_url 
                                 FROM property_listings JOIN user ON property_listings.seller_id = user.user_id 
-                                WHERE property_listings.status = 'available'");
+                                WHERE property_listings.status IN ('available', 'hold')");
                             
 
                             while($row = mysqli_fetch_array($query)) {
