@@ -62,6 +62,12 @@ $result = mysqli_query($con, "
                     <a href="view_offers.php?property_id=<?= $row['property_id'] ?>" class="btn btn-success btn-sm mt-2">
                         💰 View Offers
                     </a>
+                    <a href="submitpropertydelete.php?id=<?= $row['property_id'] ?>" 
+                        onclick="return confirm('Are you sure you want to delete this property?');" 
+                        class="btn btn-danger btn-sm mt-2 ml-2">
+                        🗑️ Delete Property
+                    </a>
+                    
                 </div>
             </div>
         </div>

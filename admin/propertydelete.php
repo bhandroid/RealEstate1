@@ -1,28 +1,45 @@
 <?php
 session_start();
 require("config.php");
+include("functions.php");  // ✅ If you want audit logging (optional)
 
-// Check admin login
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../login.php");
     exit();
 }
 
 if (isset($_GET['id'])) {
-    $property_id = $_GET['id'];
+    $property_id = intval($_GET['id']);  // Safe integer casting
 
-    // First delete from child table: property_image
-    $delete_images = "DELETE FROM property_image WHERE property_id = {$property_id}";
-    mysqli_query($con, $delete_images);
+    // ✅ Delete payments first (because payments reference offers)
+    mysqli_query($con, "
+        DELETE FROM payment 
+        WHERE offer_id IN (SELECT offer_id FROM offer WHERE property_id = $property_id)
+    ");
 
-    // Then delete from parent table: property_listings
-    $delete_property = "DELETE FROM property_listings WHERE property_id = {$property_id}";
+    // ✅ Delete offers related to the property
+    mysqli_query($con, "DELETE FROM offer WHERE property_id = $property_id");
+
+    // ✅ Delete related appointments
+    mysqli_query($con, "DELETE FROM appointment WHERE property_id = $property_id");
+
+    // ✅ Delete rental contracts (if any)
+    mysqli_query($con, "DELETE FROM rental_contracts WHERE property_id = $property_id");
+
+    // ✅ Delete property images
+    mysqli_query($con, "DELETE FROM property_image WHERE property_id = $property_id");
+
+    // ✅ Finally, delete the property itself
+    $delete_property = "DELETE FROM property_listings WHERE property_id = $property_id";
     $result = mysqli_query($con, $delete_property);
 
     if ($result) {
-        $msg = "Property Deleted Successfully";
+        // ✅ (Optional) Audit log for admin property deletion
+        // addAuditLog($_SESSION['uid'], 'ADMIN_DELETE_PROPERTY', 'Admin deleted property with ID: ' . $property_id);
+
+        $msg = "✅ Property deleted successfully.";
     } else {
-        $msg = "Failed to Delete Property";
+        $msg = "❌ Failed to delete property.";
     }
 
     header("Location: propertyview.php?msg=" . urlencode($msg));
