@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("config.php");
+include("functions.php");  // ✅ Include your audit log function
 
 $user_id = $_SESSION['uid'] ?? null;
 $role = $_SESSION['role'] ?? '';
@@ -17,7 +18,9 @@ if (!$property) {
     die("❌ Property not found or not owned by you.");
 }
 
-// Update Property Details
+$msg = "";
+
+// ✅ Update Property Details (With Audit Log)
 if (isset($_POST['update'])) {
     $title = $_POST['title'];
     $description = $_POST['description'];
@@ -26,11 +29,17 @@ if (isset($_POST['update'])) {
 
     $stmt = $con->prepare("UPDATE property_listings SET title = ?, description = ?, price = ?, location = ? WHERE property_id = ?");
     $stmt->bind_param("ssdsi", $title, $description, $price, $location, $property_id);
-    $stmt->execute();
-    $msg = "✅ Property updated successfully.";
+
+    if ($stmt->execute()) {
+        // ✅ Audit Log for Property Edit
+        addAuditLog($user_id, 'EDIT_PROPERTY', 'Edited property with ID: ' . $property_id);
+        $msg = "✅ Property updated successfully.";
+    } else {
+        $msg = "❌ Failed to update property.";
+    }
 }
 
-// Handle Add More Images
+// ✅ Handle Add More Images (Image Upload)
 if (isset($_POST['add_image']) && isset($_FILES['new_image']['name'])) {
     $image_name = $_FILES['new_image']['name'];
     $image_tmp = $_FILES['new_image']['tmp_name'];
@@ -40,22 +49,25 @@ if (isset($_POST['add_image']) && isset($_FILES['new_image']['name'])) {
     if (move_uploaded_file($image_tmp, $target_file)) {
         $stmt = $con->prepare("INSERT INTO property_image (property_id, image_url) VALUES (?, ?)");
         $stmt->bind_param("is", $property_id, $image_name);
-        $stmt->execute();
-        $msg = "✅ Image uploaded successfully.";
+        if ($stmt->execute()) {
+            // ✅ Optional Audit Log for Image Upload
+            addAuditLog($user_id, 'ADD_PROPERTY_IMAGE', 'Added new image for Property ID: ' . $property_id);
+            $msg = "✅ Image uploaded successfully.";
+        }
     } else {
         $msg = "❌ Failed to upload image.";
     }
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Edit Property with Images</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body class="container mt-5">
 <h3>Edit Property #<?= $property_id ?></h3>
-<?php if (isset($msg)) echo "<div class='alert alert-info'>$msg</div>"; ?>
+<?php if (!empty($msg)) echo "<div class='alert alert-info'>$msg</div>"; ?>
 
 <!-- ✅ Property Edit Form -->
 <form method="POST">

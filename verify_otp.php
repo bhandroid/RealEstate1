@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("config.php");
+include("functions.php"); // ✅ Include the Audit Log functions
 include("include/send_otp_mail.php");
 
 $error = "";
@@ -15,17 +16,24 @@ if (isset($_POST['verify'])) {
         $name = $_SESSION['name'];
         $email = $_SESSION['email'];
         $phone = $_SESSION['phone'];
-        $pass = $_SESSION['pass']; // already hashed using password_hash()
+        $pass = $_SESSION['pass'];  // already hashed using password_hash()
         $role = $_SESSION['role'];
 
-        // ✅ Insert into new user table schema
-        $sql = "INSERT INTO user (name, email, phone_num, password,role) 
-                VALUES ('$name', '$email', '$phone', '$pass', '$role')";
-        $result = mysqli_query($con, $sql);
+        // ✅ Insert into user table
+        $stmt = $con->prepare("INSERT INTO user (name, email, phone_num, password, role, date_of_creation) VALUES (?, ?, ?, ?, ?, NOW())");
+        $stmt->bind_param("sssss", $name, $email, $phone, $pass, $role);
+        $result = $stmt->execute();
 
         if ($result) {
+            $userId = $stmt->insert_id;  // ✅ Get the inserted user ID
+
+            // ✅ Add Audit Log after successful registration
+            addAuditLog($userId, 'REGISTRATION', 'User registered with name: ' . $name);
+
+            // ✅ Clear session after successful registration
             session_unset();
             session_destroy();
+
             $msg = "<p class='alert alert-success'>Registration successful! <a href='login.php'>Click here to login</a>.</p>";
         } else {
             $error = "<p class='alert alert-danger'>Something went wrong. Please try again.</p>";

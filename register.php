@@ -1,5 +1,7 @@
 <?php 
 include("config.php");
+include("functions.php");
+
 include("include/send_otp_mail.php");
 session_start();
 
@@ -36,9 +38,12 @@ if (isset($_POST['reg'])) {
             $_SESSION['pass'] = $hashed_pass;
             $_SESSION['role'] = $role;
 
+
             // Send OTP
             if (sendOtpMail($email, $name, $otp)) {
                 header("Location: verify_otp.php");
+
+
                 exit();
             } else {
                 $error = "<p class='alert alert-warning'>Failed to send OTP via email. Please try again.</p>";

@@ -121,7 +121,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                             <div class="dash-widget-info">
                                 <h3>
                                     <?php
-                                    $sql = "SELECT COUNT(*) AS total_props FROM property_listings";
+                                    $sql = "SELECT COUNT(*) AS total_props FROM property_listings where status ='available'";
                                     $query = $con->query($sql);
                                     echo $query->fetch_assoc()['total_props'];
                                     ?>

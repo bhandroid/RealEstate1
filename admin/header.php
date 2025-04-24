@@ -96,12 +96,17 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                     <a href="#"><i class="fe fe-browser"></i> <span> Sold Property</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
                         <li><a href="Offerstoproperty.php"> Offers to a property </a></li>
-                        <li><a href="PropertyBoughtBy.php"> Property Bought By </a></li>
-
-
-                        
+                        <li><a href="PropertyBoughtBy.php"> Property Bought By </a></li>    
                     </ul>
                 </li>
+                <li class="menu-title"><span>Audit Log</span></li>
+                <li class="submenu">
+                    <a href="#"><i class="fe fe-map"></i> <span> Log</span> <span class="menu-arrow"></span></a>
+                    <ul style="display: none;">
+                        <li><a href="view_audit_log.php"> Activities</a></li>
+                    </ul>
+                </li>
+                
             </ul>
         </div>
     </div>

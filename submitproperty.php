@@ -3,9 +3,11 @@ ini_set('session.cache_limiter','public');
 session_cache_limiter(false);
 session_start();
 include("config.php");
+include("functions.php");  // ✅ Audit log function included!
 
 if (!isset($_SESSION['email'])) {
     header("location:login.php");
+    exit();
 }
 
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Seller' && $_SESSION['role'] !== 'Agent')) {
@@ -32,6 +34,7 @@ if (isset($_POST['add'])) {
     $status = $_POST['status'];
     $seller_id = $_SESSION['uid'];
 
+    // ✅ Insert into property_listings table
     $sql = "INSERT INTO property_listings 
         (title, description, price, location, property_type, bedrooms, bathrooms, size_sqft, amenities, nearest_school, bus_availability, tram_availability, seller_id, status, created_at)
         VALUES 
@@ -42,6 +45,7 @@ if (isset($_POST['add'])) {
     if ($result) {
         $property_id = mysqli_insert_id($con);
 
+        // ✅ Handle property image upload
         if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
             $imgName = basename($_FILES['image']['name']);
             $targetPath = "admin/property/" . $imgName;
@@ -56,6 +60,7 @@ if (isset($_POST['add'])) {
             mysqli_query($con, $imgSql);
         }
 
+        // ✅ Handle rental-specific data if property type is Rental
         if (strtolower($property_type) === 'rental') {
             $available_date = $_POST['available_date'];
             $security_deposit = $_POST['security_deposit'];
@@ -63,6 +68,9 @@ if (isset($_POST['add'])) {
                           VALUES ('$property_id', '$available_date', '$security_deposit')";
             mysqli_query($con, $rentalSql);
         }
+
+        // ✅ Audit log for property addition
+        addAuditLog($seller_id, 'ADD_PROPERTY', 'Added property with title: ' . $title);
 
         $msg = "<p class='alert alert-success'>Property Inserted Successfully</p>";
     } else {
@@ -79,6 +87,25 @@ if (isset($_POST['add'])) {
     <link rel="shortcut icon" href="images/favicon.ico">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+
+    <!-- ✅ Script to toggle rental fields -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const propertyType = document.getElementById('property_type');
+            const rentalFields = document.getElementById('rental_fields');
+
+            function toggleRentalFields() {
+                if (propertyType.value.toLowerCase() === 'rental') {
+                    rentalFields.style.display = 'block';
+                } else {
+                    rentalFields.style.display = 'none';
+                }
+            }
+
+            propertyType.addEventListener('change', toggleRentalFields);
+            toggleRentalFields();
+        });
+    </script>
 </head>
 
 <body>
@@ -135,15 +162,13 @@ if (isset($_POST['add'])) {
                                 <div class="form-group"><label>Bedrooms</label><input type="number" name="bedrooms" class="form-control" required></div>
                                 <div class="form-group"><label>Bathrooms</label><input type="number" name="bathrooms" class="form-control" required></div>
                                 <div class="form-group"><label>Size (sqft)</label><input type="number" name="size_sqft" class="form-control" required></div>
-                                <div class="form-group">
-                                    <label>Bus Availability</label>
+                                <div class="form-group"><label>Bus Availability</label>
                                     <select name="bus_availability" class="form-control">
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label>Tram Availability</label>
+                                <div class="form-group"><label>Tram Availability</label>
                                     <select name="tram_availability" class="form-control">
                                         <option value="Yes">Yes</option>
                                         <option value="No">No</option>
@@ -157,4 +182,13 @@ if (isset($_POST['add'])) {
                                 </div>
                                 <div class="form-group"><label>Upload Property Image</label><input type="file" name="image" accept="image/*" class="form-control"></div>
                                 <div class="form-group"><label>&nbsp;</label><input type="submit" name="add" value="Submit Property" class="btn btn-info btn-block"></div>
-                            </div
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
