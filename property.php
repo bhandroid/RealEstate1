@@ -94,9 +94,7 @@ $role = strtolower($_SESSION['role'] ?? '');
                         </div>
                     </div>
 
-                    <div class="col-lg-4">
-                        <?php include("sidebar.php"); ?>
-                    </div>
+                    
                 </div>
             </div>
         </div>
