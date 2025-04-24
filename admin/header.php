@@ -91,21 +91,15 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                     </ul>
                 </li>
 
-                <li class="menu-title"><span>Query</span></li>
+                <li class="menu-title"><span>Transaction</span></li>
                 <li class="submenu">
-                    <a href="#"><i class="fe fe-comment"></i> <span> Contact, Feedback </span> <span class="menu-arrow"></span></a>
+                    <a href="#"><i class="fe fe-browser"></i> <span> Sold Property</span> <span class="menu-arrow"></span></a>
                     <ul style="display: none;">
-                        <li><a href="contactview.php"> Contact </a></li>
-                        <li><a href="feedbackview.php"> Feedback </a></li>
-                    </ul>
-                </li>
+                        <li><a href="aboutadd.php"> Offers to a property </a></li>
+                        <li><a href="aboutdelete.php"> Property Bought By </a></li>
 
-                <li class="menu-title"><span>About</span></li>
-                <li class="submenu">
-                    <a href="#"><i class="fe fe-browser"></i> <span> About Page </span> <span class="menu-arrow"></span></a>
-                    <ul style="display: none;">
-                        <li><a href="aboutadd.php"> Add About Content </a></li>
-                        <li><a href="aboutview.php"> View About </a></li>
+
+                        
                     </ul>
                 </li>
             </ul>
