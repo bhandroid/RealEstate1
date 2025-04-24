@@ -1,4 +1,11 @@
 <?php 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'include/mailer/PHPMailer.php';
+require 'include/mailer/SMTP.php';
+require 'include/mailer/Exception.php';
+
 ini_set('session.cache_limiter','public');
 session_cache_limiter(false);
 session_start();
@@ -24,16 +31,55 @@ if ((int)$row['seller_id'] !== (int)$user_id) {
     die("❌ You can only view appointments for properties you posted.");
 }
 
-// Handle form submission to update status
+// Handle form submission to update status and send email
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['appointment_id'], $_POST['status'])) {
     $appointment_id = (int)$_POST['appointment_id'];
     $status = $_POST['status'];
+
     if (in_array($status, ['Accepted', 'Rejected'])) {
         $stmt = $con->prepare("UPDATE appointment SET status = ? WHERE appointment_id = ?");
         $stmt->bind_param("si", $status, $appointment_id);
         $stmt->execute();
+
+        // If accepted, send confirmation email
+        if ($status === 'Accepted') {
+            $info = mysqli_query($con, "
+                SELECT a.time, u.name, u.email, u.user_id 
+                FROM appointment a 
+                JOIN user u ON a.user_id = u.user_id 
+                WHERE a.appointment_id = $appointment_id
+            ");
+            $data = mysqli_fetch_assoc($info);
+
+            if ($data) {
+                $mail = new PHPMailer(true);
+                try {
+                    $mail->isSMTP();
+                    $mail->Host = 'smtp.gmail.com';
+                    $mail->SMTPAuth = true;
+                    $mail->Username = 'bhanuprakashofcl@gmail.com';  // your Gmail
+                    $mail->Password = 'upqd ysyn qesn hhpe';          // your app password
+                    $mail->SMTPSecure = 'tls';
+                    $mail->Port = 587;
+
+                    $mail->setFrom('bhanuprakashofcl@gmail.com', 'Real Estate Appointments');
+                    $mail->addAddress($data['email'], $data['name']);
+                    $mail->isHTML(true);
+                    $mail->Subject = "Your Appointment Has Been Accepted!";
+                    $mail->Body = "
+                        <h3>Hi {$data['name']},</h3>
+                        <p>Your appointment for Property ID <strong>$property_id</strong> has been <b>accepted</b> by the seller.</p>
+                        <p><strong>Confirmed Date & Time:</strong> {$data['time']}</p>
+                        <p>Please be on time. For further questions, contact the seller.</p>
+                        <br><p>Regards,<br><b>Real Estate Team</b></p>";
+                    $mail->send();
+                } catch (Exception $e) {
+                    error_log("Email error: " . $mail->ErrorInfo);
+                }
+            }
+        }
     }
-    // Redirect to avoid resubmission
+
     header("Location: view_appointments.php?property_id=$property_id");
     exit();
 }
