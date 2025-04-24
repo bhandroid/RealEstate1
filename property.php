@@ -13,7 +13,7 @@ $role = strtolower($_SESSION['role'] ?? '');
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Real Estate PHP</title>
+<title>Real Estate PHP - Available Properties</title>
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -28,22 +28,26 @@ $role = strtolower($_SESSION['role'] ?? '');
                     <div class="col-lg-8">
                         <div class="row">
                             <?php 
-                            $query = mysqli_query($con, "SELECT property_listings.*, user.name AS uname, user.role AS utype, 
+                            $query = mysqli_query($con, "
+                                SELECT property_listings.*, user.name AS uname, user.role AS utype, 
                                 (SELECT image_url FROM property_image WHERE property_image.property_id = property_listings.property_id LIMIT 1) AS image_url 
-                                FROM property_listings JOIN user ON property_listings.seller_id = user.user_id 
-                                WHERE property_listings.status = 'available'");
+                                FROM property_listings 
+                                JOIN user ON property_listings.seller_id = user.user_id 
+                                WHERE property_listings.status = 'available'
+                            ");
                             
-
-                            while($row = mysqli_fetch_array($query)) {
+                            while($row = mysqli_fetch_assoc($query)) {
                                 $property_id = $row['property_id'];
                                 $seller_id = $row['seller_id'];
-                                if ($seller_id == $user_id) continue; // Skip properties posted by the logged-in user
                                 $image = $row['image_url'] ?? 'default.jpg';
+
+                                // Skip own properties for buyers only
+                                if ($seller_id == $user_id && $role === 'buyer') continue; 
                             ?>
                             <div class="col-md-6">
                                 <div class="featured-thumb hover-zoomer mb-4">
                                     <div class="overlay-black overflow-hidden position-relative">
-                                        <img src="admin/property/<?php echo htmlspecialchars($image); ?>" alt="pimage">
+                                        <img src="admin/property/<?php echo htmlspecialchars($image); ?>" alt="pimage" style="height:250px; width:100%;">
                                         <div class="sale bg-success text-white">For <?php echo htmlspecialchars($row['property_type']); ?></div>
                                         <div class="price text-primary text-capitalize">
                                             ₹<?php echo number_format($row['price']); ?> <span class="text-white"><?php echo htmlspecialchars($row['size_sqft']); ?> Sqft</span>
@@ -68,7 +72,20 @@ $role = strtolower($_SESSION['role'] ?? '');
                                                     : 'Not Available';
                                                 ?>
                                             </div>
-
+                                        </div>
+                                        <!-- ✅ Booking & Favorites Buttons -->
+                                        <div class="px-4 pb-4">
+                                            <?php 
+                                            if (in_array($role, ['buyer', 'agent'])) {
+                                                echo "<a href='appointment.php?property_id=$property_id' class='btn btn-primary btn-block'>📅 Book Appointment</a>";
+                                            }
+                                            if ($user_id) { // Only logged-in users can add to favorites
+                                                echo "<form method='POST' action='favorite_add.php' class='mt-2'>
+                                                        <input type='hidden' name='property_id' value='$property_id'>
+                                                        <button type='submit' class='btn btn-outline-danger btn-block'>❤️ Add to Favorites</button>
+                                                      </form>";
+                                            }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -76,7 +93,10 @@ $role = strtolower($_SESSION['role'] ?? '');
                             <?php } ?>
                         </div>
                     </div>
-                    
+
+                    <div class="col-lg-4">
+                        <?php include("sidebar.php"); ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,6 +108,5 @@ $role = strtolower($_SESSION['role'] ?? '');
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/custom.js"></script>
-
 </body>
 </html>
