@@ -1,6 +1,7 @@
 <?php
 session_start();
 require("config.php");
+require("../functions.php");
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../login.php");
@@ -35,6 +36,7 @@ if (isset($_POST['add'])) {
 
     if ($result) {
         $property_id = mysqli_insert_id($con);
+        addAuditLog($_SESSION['uid'], 'ADMIN_ADD_PROPERTY', 'Admin added property with title: ' . $title . ' for Seller/Agent ID: ' . $seller_id);
 
         // Handle image upload
         if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {

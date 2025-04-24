@@ -1,7 +1,7 @@
 <?php
 session_start();
 require("config.php");
-include("functions.php");  // ✅ If you want audit logging (optional)
+include("../functions.php");  // ✅ If you want audit logging (optional)
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../login.php");
@@ -35,7 +35,7 @@ if (isset($_GET['id'])) {
 
     if ($result) {
         // ✅ (Optional) Audit log for admin property deletion
-        // addAuditLog($_SESSION['uid'], 'ADMIN_DELETE_PROPERTY', 'Admin deleted property with ID: ' . $property_id);
+        addAuditLog($_SESSION['uid'], 'ADMIN_DELETE_PROPERTY', 'Admin deleted property with ID: ' . $property_id);
 
         $msg = "✅ Property deleted successfully.";
     } else {

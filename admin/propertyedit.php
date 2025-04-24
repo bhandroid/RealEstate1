@@ -1,6 +1,7 @@
 <?php
 session_start();
 require("config.php");
+require("../functions.php");
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../login.php");
@@ -38,6 +39,8 @@ if (isset($_POST['update'])) {
     $result = mysqli_query($con, $sql);
     if ($result) {
         header("Location: propertyview.php?msg=Property+Updated+Successfully");
+        addAuditLog($_SESSION['uid'], 'ADMIN_EDIT_PROPERTY', 'Admin edited property with ID: ' . $property_id);
+
         exit();
     } else {
         $msg = "<p class='alert alert-warning'>Failed to Update Property</p>";
