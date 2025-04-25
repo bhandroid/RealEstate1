@@ -53,15 +53,25 @@ $result = mysqli_query($con, "
                         <?= htmlspecialchars($row['location']) ?><br>
                         <?= htmlspecialchars($row['size_sqft']) ?> Sqft
                     </p>
+
                     <a href="view_appointments.php?property_id=<?= $row['property_id'] ?>" class="btn btn-info btn-sm">
                         📋 View Appointments
                     </a>
+
                     <a href="edit_property.php?property_id=<?= $row['property_id'] ?>" class="btn btn-warning btn-sm ml-2">
                         ✏️ Edit Property
                     </a>
-                    <a href="view_offers.php?property_id=<?= $row['property_id'] ?>" class="btn btn-success btn-sm mt-2">
-                        💰 View Offers
-                    </a>
+
+                    <?php if (strtolower($row['property_type']) === 'rental'): ?>
+                        <a href="view_rental_interest.php?property_id=<?= $row['property_id'] ?>" class="btn btn-secondary btn-sm mt-2">
+                            🏷️ View Rental Interests
+                        </a>
+                    <?php else: ?>
+                        <a href="view_offers.php?property_id=<?= $row['property_id'] ?>" class="btn btn-success btn-sm mt-2">
+                            💰 View Offers
+                        </a>
+                    <?php endif; ?>
+
                     <a href="submitpropertydelete.php?id=<?= $row['property_id'] ?>" 
                         onclick="return confirm('Are you sure you want to delete this property?');" 
                         class="btn btn-danger btn-sm mt-2 ml-2">
