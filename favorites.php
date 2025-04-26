@@ -17,34 +17,82 @@ $query = mysqli_query($con, "
 ");
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Favorites</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>My Favorites - Real Estate Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: 'Poppins', sans-serif;
+        }
+        .property-card {
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background-color: #fff;
+        }
+        .property-card:hover {
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transform: translateY(-6px);
+        }
+        .property-img {
+            height: 220px;
+            object-fit: cover;
+        }
+        .property-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        .btn-details {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+        }
+        .btn-details:hover {
+            background: linear-gradient(135deg, #0056b3, #003f7f);
+        }
+    </style>
 </head>
-<body class="container mt-4">
-    <h3>❤️ My Favorite Properties</h3>
+<body>
+
+<?php include("include/header.php"); ?>
+
+<div class="container mt-5">
+    <h3 class="mb-4 text-center text-primary">❤️ My Favorite Properties</h3>
+
     <div class="row">
         <?php if (mysqli_num_rows($query) == 0): ?>
-            <div class="col-12 alert alert-warning">No favorites yet.</div>
+            <div class="col-12">
+                <div class="alert alert-warning text-center">No favorite properties yet. Start exploring!</div>
+            </div>
         <?php endif; ?>
 
         <?php while ($row = mysqli_fetch_assoc($query)): ?>
             <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100">
-                    <img src="admin/property/<?php echo htmlspecialchars($row['image_url'] ?? 'default.jpg'); ?>" class="card-img-top" alt="Image">
+                <div class="card property-card h-100 shadow-sm">
+                    <img src="admin/property/<?= htmlspecialchars($row['image_url'] ?? 'default.jpg'); ?>" 
+                         class="property-img w-100" alt="Property Image">
                     <div class="card-body">
-                        <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
-                        <p class="card-text">
+                        <h5 class="property-title"><?= htmlspecialchars($row['title']) ?></h5>
+                        <p class="card-text text-muted">
                             ₹<?= number_format($row['price']) ?><br>
-                            <?= htmlspecialchars($row['location']) ?><br>
-                            <?= $row['size_sqft'] ?> sqft
+                            📍 <?= htmlspecialchars($row['location']) ?><br>
+                            🧱 <?= $row['size_sqft'] ?> Sqft
                         </p>
-                        <a href="propertydetail.php?pid=<?= $row['property_id'] ?>" class="btn btn-primary">View Details</a>
+                        <a href="propertydetail.php?pid=<?= $row['property_id'] ?>" class="btn btn-details btn-sm w-100 mt-2">🔍 View Details</a>
                     </div>
                 </div>
             </div>
         <?php endwhile; ?>
     </div>
+</div>
+
+<?php include("include/footer.php"); ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
