@@ -1,4 +1,6 @@
 <?php 
+ob_start();  
+
 ini_set('session.cache_limiter','public');
 session_cache_limiter(false);
 session_start();
@@ -158,3 +160,4 @@ $result = mysqli_query($con, "
 </body>
 </html>
 <?php include("include/footer.php"); ?>
+<?php ob_end_flush(); ?>
