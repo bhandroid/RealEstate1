@@ -18,12 +18,15 @@ if (isset($_POST['verify'])) {
         $phone = $_SESSION['phone'];
         $pass = $_SESSION['pass'];  // already hashed using password_hash()
         $role = $_SESSION['role'];
-
+        
+        
         // ✅ Insert into user table
-        $stmt = $con->prepare("INSERT INTO user (name, email, phone_num, password, role, date_of_creation) VALUES (?, ?, ?, ?, ?, NOW())");
+        $stmt = $con->prepare("INSERT INTO `user` (name, email, phone_num, password, role, date_of_creation) VALUES (?, ?, ?, ?, ?, NOW())");
+        if (!$stmt) {
+            die("Prepare failed: " . $con->error);
+        }
         $stmt->bind_param("sssss", $name, $email, $phone, $pass, $role);
         $result = $stmt->execute();
-
         if ($result) {
             $userId = $stmt->insert_id;  // ✅ Get the inserted user ID
 

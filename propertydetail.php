@@ -173,19 +173,11 @@ $buyer_id = $_SESSION['user_id'] ?? 0;
                         Status: <strong>{$rental['status']}</strong>
                     </div>";
                     if ($rental['status'] === 'Accepted' && $rental['payment_status'] !== 'Paid') {
-                        echo '
-                        <h4 class="mt-4">Pay Deposit</h4>
-                        <form method="POST">
-                            <input type="hidden" name="rental_id" value="' . $rental['interest_id'] . '">
-                            <div class="form-group">
-                                <label>Payment Method</label>
-                                <select name="payment_method" class="form-control" required>
-                                    <option value="Credit Card">Credit Card</option>
-                                    <option value="Bank Transfer">Bank Transfer</option>
-                                </select>
-                            </div>
-                            <button name="rental_payment" class="btn btn-gradient mt-3">Pay ₹' . number_format($row['price'], 2) . '</button>
-                        </form>';
+                        echo '<h4 class="mt-4">Pay Deposit</h4>';
+                        echo '<a href="create_checkout_session_rental.php?pid=' . $pid . '" class="btn btn-gradient mt-3">';
+                        echo 'Pay $' . number_format($row['price'], 2) . ' via Stripe';
+                        echo '</a>';
+
                     } elseif ($rental['payment_status'] === 'Paid') {
                         echo "<div class='alert alert-success'>✅ Payment completed. Property rented.</div>";
                     }
@@ -205,7 +197,7 @@ $buyer_id = $_SESSION['user_id'] ?? 0;
                     $offer_row = mysqli_fetch_assoc($existing_offer);
                     echo "<div class='alert alert-info mt-3'>
                         <strong>Offer Submitted:</strong><br>
-                        Price: <strong>₹{$offer_row['offer_price']}</strong><br>
+                        Price: <strong>{$offer_row['offer_price']}$</strong><br>
                         Date: <strong>" . date("d M Y", strtotime($offer_row['offer_date'])) . "</strong><br>
                         Status: <strong>{$offer_row['status']}</strong>
                     </div>";
@@ -217,18 +209,12 @@ $buyer_id = $_SESSION['user_id'] ?? 0;
                     $check_offer = mysqli_query($con, "SELECT offer_id, offer_price FROM offer WHERE property_id = $property_id AND buyer_id = $buyer_id AND status = 'Accepted'");
                     if (mysqli_num_rows($check_offer) > 0) {
                         $offer = mysqli_fetch_assoc($check_offer);
-                        echo '<h4 class="mt-5 text-secondary">Make Payment</h4>
-                        <form method="POST">
-                            <input type="hidden" name="offer_id" value="' . $offer['offer_id'] . '">
-                            <div class="form-group">
-                                <label>Payment Method</label>
-                                <select name="payment_method" class="form-control" required>
-                                    <option value="Credit Card">Credit Card</option>
-                                    <option value="Bank Transfer">Bank Transfer</option>
-                                </select>
-                            </div>
-                            <button type="submit" name="make_payment" class="btn btn-gradient mt-3">Pay ₹' . number_format($offer['offer_price'], 2) . '</button>
-                        </form>';
+                        // echo '<h4 class="mt-5 text-secondary">Make Payment</h4>
+                        echo '<h4 class="mt-5 text-secondary">Make Payment</h4>';
+                        echo '<a href="create_checkout_session_sale.php?offer_id=' . $offer['offer_id'] . '" class="btn btn-gradient mt-3">';
+                        echo 'Pay $' . number_format($offer['offer_price'], 2) . ' via Stripe';
+                        echo '</a>';
+
                     }
                 } else {
                     echo "<div class='alert alert-success mt-3'>✅ Payment completed for this property.</div>";
