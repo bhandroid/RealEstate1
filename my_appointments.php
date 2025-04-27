@@ -4,6 +4,7 @@ session_cache_limiter(false);
 session_start();
 include("config.php");
 
+
 $user_id = $_SESSION['uid'] ?? null;
 $role = ucfirst(strtolower($_SESSION['role'] ?? ''));
 $property_id = $_GET['property_id'] ?? null;
@@ -47,9 +48,24 @@ $result = mysqli_query($con, "
 ?>
 <!DOCTYPE html>
 <html>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="https://fonts.googleapis.com/css?family=Muli:400,400i,500,600,700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <head>
     <title>View Appointments</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="css/layerslider.css">
+<link rel="stylesheet" type="text/css" href="css/color.css" id="color-change">
+<link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="fonts/flaticon/flaticon.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body class="container mt-5">
     <h3 class="mb-4">📋 Appointments for Property #<?= $property_id ?></h3>
@@ -94,3 +110,4 @@ $result = mysqli_query($con, "
     <?php endif; ?>
 </body>
 </html>
+<?php include("include/footer.php"); ?>

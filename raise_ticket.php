@@ -1,6 +1,7 @@
 <?php
 session_start();
 include("config.php");
+include("include/header.php");
 
 if (!isset($_SESSION['uid'])) {
     header("Location: login.php");
@@ -62,8 +63,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['track_ticket'])) {
 <head>
     <title>Raise Ticket</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,500,600,700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="css/layerslider.css">
+<link rel="stylesheet" type="text/css" href="css/color.css" id="color-change">
+<link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="fonts/flaticon/flaticon.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body class="container mt-5">
     <h2 class="mb-4">🎫 Raise a Support Ticket</h2>
     <?= $msg ?>
     <form method="POST" enctype="multipart/form-data">
@@ -93,4 +107,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['track_ticket'])) {
 
     <?= $track_msg ?>
 </body>
+<?php include("include/footer.php"); ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/custom.js"></script>
 </html>

@@ -3,38 +3,9 @@ ini_set('session.cache_limiter','public');
 session_cache_limiter(false);
 session_start();
 include("config.php");
-if(!isset($_SESSION['email']))
-{
+if(!isset($_SESSION['email'])) {
 	header("location:login.php");
 }
-
-////// code
-$error='';
-$msg='';
-if(isset($_POST['insert']))
-{
-	$name=$_POST['name'];
-	$phone=$_POST['phone'];
-
-	$content=$_POST['content'];
-	
-	$uid=$_SESSION['uid'];
-	
-	if(!empty($name) && !empty($phone) && !empty($content))
-	{
-		
-		$sql="INSERT INTO feedback (uid,fdescription,status) VALUES ('$uid','$content','0')";
-		   $result=mysqli_query($con, $sql);
-		   if($result){
-			   $msg = "<p class='alert alert-success'>Feedback Send Successfully</p> ";
-		   }
-		   else{
-			   $error = "<p class='alert alert-warning'>Feedback Not Send Successfully</p> ";
-		   }
-	}else{
-		$error = "<p class='alert alert-warning'>Please Fill all the fields</p>";
-	}
-}								
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,13 +20,11 @@ if(isset($_POST['insert']))
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <link rel="shortcut icon" href="images/favicon.ico">
 
-<!--	Fonts
-	========================================================-->
+<!--	Fonts	-->
 <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,500,600,700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
 
-<!--	Css Link
-	========================================================-->
+<!--	Css Link	-->
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
 <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
@@ -67,23 +36,10 @@ if(isset($_POST['insert']))
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" type="text/css" href="css/login.css">
 
-<!--	Title
-	=========================================================-->
+<!--	Title	-->
 <title>Real Estate PHP</title>
 </head>
 <body>
-
-<!--	Page Loader
-=============================================================
-<div class="page-loader position-fixed z-index-9999 w-100 bg-white vh-100">
-	<div class="d-flex justify-content-center y-middle position-relative">
-	  <div class="spinner-border" role="status">
-		<span class="sr-only">Loading...</span>
-	  </div>
-	</div>
-</div>
---> 
-
 
 <div id="page-wrapper">
     <div class="row"> 
@@ -91,7 +47,7 @@ if(isset($_POST['insert']))
 		<?php include("include/header.php");?>
         <!--	Header end  -->
         
-        <!--	Banner   --->
+        <!--	Banner   -->
         <div class="banner-full-row page-banner" style="background-image:url('images/breadcromb.jpg');">
             <div class="container">
                 <div class="row">
@@ -109,70 +65,42 @@ if(isset($_POST['insert']))
                 </div>
             </div>
         </div>
-         <!--	Banner   --->
+        <!--	Banner End  -->
 		 
-		 
-		<!--	Submit property   -->
+		<!--	Profile Section   -->
         <div class="full-row">
             <div class="container">
-                    <div class="row">
-						<div class="col-lg-12">
-							<h2 class="text-secondary double-down-line text-center">Profile</h2>
-                        </div>
-					</div>
+                <div class="row">
+					<div class="col-lg-12">
+						<h2 class="text-secondary double-down-line text-center">Profile</h2>
+                    </div>
+				</div>
                 <div class="dashboard-personal-info p-5 bg-white">
-                    <form action="#" method="post">
-                        <h5 class="text-secondary border-bottom-on-white pb-3 mb-4">Feedback Form</h5>
-						<?php echo $msg; ?><?php echo $error; ?>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-12">
-                                <div class="form-group">
-                                    <label for="user-id">Full Name</label>
-                                    <input type="text" name="name" class="form-control" placeholder="Enter Full Name">
-                                </div>                
-                                
-                                <div class="form-group">
-                                    <label for="phone">Contact Number</label>
-                                    <input type="number" name="phone"  class="form-control" placeholder="Enter Phone" maxlength="10">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="about-me">Your Feedback</label>
-                                    <textarea class="form-control" name="content" rows="7" placeholder="Enter Text Here...."></textarea>
-                                </div>
-                                <input type="submit" class="btn btn-info mb-4" name="insert" value="Send Feedback">
+                    <h5 class="text-secondary border-bottom-on-white pb-3 mb-4 text-center">Profile Information</h5>
+                    <div class="row justify-content-center"> <!-- Centered the row -->
+                        <div class="col-lg-6 col-md-8 text-center"> <!-- Reduced width and centered -->
+                            <?php 
+                                $uid = $_SESSION['uid'];
+                                $query = mysqli_query($con, "SELECT * FROM `user` WHERE user_id='$uid'");
+                                while($row = mysqli_fetch_array($query)) {
+                            ?>
+                            <div class="font-18">
+                                <div class="mb-3 text-capitalize"><b>Name:</b> <?php echo $row['1']; ?></div>
+                                <div class="mb-3"><b>Email:</b> <?php echo $row['2']; ?></div>
+                                <div class="mb-3"><b>Contact:</b> <?php echo $row['3']; ?></div>
+                                <div class="mb-3 text-capitalize"><b>Role:</b> <?php echo $row['5']; ?></div>
                             </div>
-							</form>
-                            <div class="col-lg-1"></div>
-                            <div class="col-lg-5 col-md-12">
-								<?php 
-									$uid=$_SESSION['uid'];
-									$query=mysqli_query($con,"SELECT * FROM `user` WHERE user_id='$uid'");
-									while($row=mysqli_fetch_array($query))
-									{
-								?>
-                            
-									
-                                    <div class="font-18">
-                                        <div class="mb-1 text-capitalize"><b>Name:</b> <?php echo $row['1'];?></div>
-                                        <div class="mb-1"><b>Email:</b> <?php echo $row['2'];?></div>
-                                        <div class="mb-1"><b>Contact:</b> <?php echo $row['3'];?></div>
-										<div class="mb-1 text-capitalize"><b>Role:</b> <?php echo $row['5'];?></div>
-                                    </div>
-									<?php } ?>
-                                </div>
-                            </div>
+                            <?php } ?>
                         </div>
-                    
+                    </div>
                 </div>            
             </div>
         </div>
-	<!--	Submit property   -->
-      <!-- FOR MORE PROJECTS visit: codeastro.com -->  
+		<!--	Profile Section End   -->
         
-        <!--	Footer   start-->
+        <!--	Footer start -->
 		<?php include("include/footer.php");?>
-		<!--	Footer   start-->
+		<!--	Footer end -->
         
         <!-- Scroll to top --> 
         <a href="#" class="bg-secondary text-white hover-text-secondary" id="scroll"><i class="fas fa-angle-up"></i></a> 
@@ -180,15 +108,12 @@ if(isset($_POST['insert']))
     </div>
 </div>
 <!-- Wrapper End --> 
-<!-- FOR MORE PROJECTS visit: codeastro.com -->
-<!--	Js Link
-============================================================--> 
+
+<!--	Js Link	--> 
 <script src="js/jquery.min.js"></script> 
-<!--jQuery Layer Slider --> 
 <script src="js/greensock.js"></script> 
 <script src="js/layerslider.transitions.js"></script> 
 <script src="js/layerslider.kreaturamedia.jquery.js"></script> 
-<!--jQuery Layer Slider --> 
 <script src="js/popper.min.js"></script> 
 <script src="js/bootstrap.min.js"></script> 
 <script src="js/owl.carousel.min.js"></script> 

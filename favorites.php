@@ -20,10 +20,21 @@ $query = mysqli_query($con, "
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <title>My Favorites - Real Estate Portal</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,500,600,700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/layerslider.css">
+    <link rel="stylesheet" type="text/css" href="css/color.css" id="color-change">
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/flaticon/flaticon.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <style>
         body {
             background-color: #f0f2f5;
@@ -62,7 +73,7 @@ $query = mysqli_query($con, "
 <?php include("include/header.php"); ?>
 
 <div class="container mt-5">
-    <h3 class="mb-4 text-center text-primary">❤️ My Favorite Properties</h3>
+    <h3 class="mb-4 text-center text-primary"> My Favorite Properties</h3>
 
     <div class="row">
         <?php if (mysqli_num_rows($query) == 0): ?>

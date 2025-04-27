@@ -23,11 +23,23 @@ $result = mysqli_query($con, "
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link href="https://fonts.googleapis.com/css?family=Muli:400,400i,500,600,700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>My Properties - Real Estate Portal</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="css/layerslider.css">
+<link rel="stylesheet" type="text/css" href="css/color.css" id="color-change">
+<link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="fonts/flaticon/flaticon.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+
 <style>
     body {
         background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
@@ -49,13 +61,13 @@ $result = mysqli_query($con, "
         height: 230px;
         object-fit: cover;
         width: 100%;
-        border-bottom: 5px solid #6c63ff;
+        border-bottom: 5px solidrgb(35, 198, 92);
     }
     .edit-btn {
         position: absolute;
         top: 15px;
         right: 15px;
-        background: linear-gradient(135deg, #6c63ff, #836fff);
+        background: linear-gradient(135deg,rgb(18, 177, 32),rgb(18, 177, 32));
         border: none;
         border-radius: 50%;
         padding: 10px 12px;
@@ -76,7 +88,7 @@ $result = mysqli_query($con, "
         border: none;
     }
     .btn-group-custom a.btn-primary {
-        background: linear-gradient(135deg, #00c9ff, #92fe9d);
+        background: linear-gradient(135deg, rgb(18, 177, 32),rgb(18, 177, 32));
         color: #fff;
     }
     .btn-group-custom a.btn-secondary {
@@ -88,7 +100,7 @@ $result = mysqli_query($con, "
         color: #fff;
     }
     .btn-group-custom a.btn-danger {
-        background: linear-gradient(135deg, #ff512f, #dd2476);
+        background: linear-gradient(135deg,rgb(255, 42, 0),rgb(255, 8, 8));
         color: #fff;
     }
     .btn-group-custom a:hover {
@@ -101,7 +113,7 @@ $result = mysqli_query($con, "
         text-align: center;
     }
     h3.title-heading {
-        background: linear-gradient(135deg, #6c63ff, #836fff);
+        background: linear-gradient(135deg,rgb(0, 0, 0), #836fff);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         font-weight: 700;
@@ -115,7 +127,7 @@ $result = mysqli_query($con, "
 <?php include("include/header.php"); ?>
 
 <div class="container my-5">
-    <h3 class="title-heading">✨ My Posted Properties</h3>
+    <h3 class="title-heading"> My Posted Properties</h3>
 
     <?php if (mysqli_num_rows($result) == 0): ?>
         <div class="alert alert-warning text-center">🚫 You have not posted any properties yet.</div>

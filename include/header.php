@@ -40,7 +40,6 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li class="nav-item"><a class="nav-link" href="index.php">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                                 <li class="nav-item"><a class="nav-link" href="property.php">Properties</a></li>
 
                                 <!-- ✅ My Properties tab for Sellers/Agents only -->
@@ -73,14 +72,14 @@
                             <!-- ✅ Submit Property Button (only for Seller, Agent, Admin) -->
                             <?php if (isset($_SESSION['role']) && in_array(strtolower($_SESSION['role']), ['seller', 'agent', 'admin'])): ?>
                                 <a class="btn btn-gradient-primary d-none d-xl-block me-2" style="border-radius: 30px;" href="submitproperty.php">
-                                    ➕ Submit Property
+                                         Submit Property
                                 </a>
                             <?php endif; ?>
 
                             <!-- 🎫 Raise Ticket Button (all logged-in users) -->
                             <?php if (isset($_SESSION['uid'])): ?>
                                 <a class="btn btn-warning d-none d-xl-block" style="border-radius: 30px;" href="raise_ticket.php">
-                                    🎫 Raise Ticket
+                                     Raise Ticket
                                 </a>
                             <?php endif; ?>
                         </div>
@@ -91,10 +90,10 @@
     </div>
 </header>
 
-<!-- ✅ Add Gradient Button Style -->
+
 <style>
     .btn-gradient-primary {
-        background: linear-gradient(90deg, #00c6ff 0%, #0072ff 100%);
+        background: linear-gradient(90deg,rgb(11, 144, 31) 0%,rgb(22, 165, 12) 100%);
         color: white;
         border: none;
     }
