@@ -73,7 +73,7 @@ $city = isset($_POST['city']) ? mysqli_real_escape_string($con, $_POST['city']) 
                 <div class="row">
 
 <?php
-if (!empty($type) && !empty($stype) && !empty($city)) {
+if (!empty($type) || !empty($city)) {
     $query = mysqli_query($con, "
         SELECT p.*, u.name AS seller_name, 
         (SELECT image_url FROM property_image WHERE property_id = p.property_id LIMIT 1) AS image_url

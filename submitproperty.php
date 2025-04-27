@@ -47,7 +47,7 @@ if (isset($_POST['add'])) {
     $sql = "INSERT INTO property_listings 
         (title, description, price, street,location,state,zip ,property_type, bedrooms, bathrooms, size_sqft, pool_available,is_dog_friendly, nearest_school, bus_availability, tram_availability, seller_id, status, created_at)
         VALUES 
-        ('$title', '$description', '$price', '$street','$location','$state','$zip', '$property_type', '$bedrooms', '$bathrooms', '$size_sqft', '$pool_available','is_dog_friendly', '$nearest_school', '$bus_availability', '$tram_availability', '$seller_id', '$status', NOW())";
+        ('$title', '$description', '$price', '$street','$location','$state','$zip', '$property_type', '$bedrooms', '$bathrooms', '$size_sqft', '$pool_available','$is_dog_friendly', '$nearest_school', '$bus_availability', '$tram_availability', '$seller_id', '$status', NOW())";
 
     $result = mysqli_query($con, $sql);
 
