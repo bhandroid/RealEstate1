@@ -15,7 +15,7 @@ if (!$rental_interest_id) {
 }
 
 // Update rental_interest payment_status to 'Paid'
-mysqli_query($con, "UPDATE rental_interest SET payment_status = 'Paid', payment_date = CURDATE(), payment_method = 'Stripe' WHERE interest_id = $rental_interest_id");
+mysqli_query($con, "UPDATE rental_interest SET payment_status = 'Paid', payment_method = 'Stripe',payment_date = CURDATE() WHERE interest_id = $rental_interest_id");
 
 // Fetch seller_id and price from property_listings
 $row = mysqli_fetch_assoc(mysqli_query($con, "SELECT seller_id, price FROM property_listings WHERE property_id = $pid"));
