@@ -22,5 +22,5 @@ $seller_id = $row['seller_id'];
 mysqli_query($con, "INSERT INTO payment (offer_id, seller_id, amount_paid, payment_method, payment_date, status, payment_type)
     VALUES ($offer_id, $seller_id, $amount, 'Stripe', CURDATE(), 'Completed', 'Sale')");
 
-echo "<h2>✅ Sale Payment Successful!</h2><a href='dashboard.php'>Go to Dashboard</a>";
+echo "<h2>✅ Sale Payment Successful!</h2><a href='Bought_Propertyes.php'>Go to my Properties</a>";
 ?>
