@@ -25,8 +25,8 @@ $session = \Stripe\Checkout\Session::create([
         'quantity' => 1,
     ]],
     'mode' => 'payment',
-    'success_url' => 'http://localhost/RealEstate-PHP/RealEstate1/payment_success_rental.php?pid='.$pid.'&buyer_id='.$buyer_id,
-    'cancel_url' => 'http://localhost/RealEstate-PHP/RealEstate1/propertydetail.php?pid='.$pid,
+    'success_url' => 'http://localhost/RealEstate1/payment_success_rental.php?pid='.$pid.'&buyer_id='.$buyer_id,
+    'cancel_url' => 'http://localhost/RealEstate1/propertydetail.php?pid='.$pid,
 ]);
 
 header("Location: " . $session->url);

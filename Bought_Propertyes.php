@@ -4,26 +4,49 @@ include("config.php");
 
 $role = $_SESSION['role'] ?? '';
 $user_id = $_SESSION['uid'] ?? null;
-
 if (!$user_id || !in_array($role, ['Buyer', 'Agent'])) {
     $_SESSION['error'] = "Access Denied. Only Buyers or Agents can view this page.";
-    header("Location: dashboard.php");
+    header("Location: index.php");
     exit();
 }
 
-$query = "
-    SELECT p.*, 
-           (SELECT image_url FROM property_image WHERE property_id = p.property_id LIMIT 1) AS image_url,
-           pay.payment_date, pay.status AS payment_status
+// Query for Purchased Properties (Sale)
+$query_sale = "
+    SELECT 
+        p.*, 
+        (SELECT image_url FROM property_image WHERE property_id = p.property_id LIMIT 1) AS image_url,
+        pay.payment_date, 
+        pay.status AS payment_status, 
+        'Sale' AS transaction_type
     FROM property_listings p
     JOIN offer o ON p.property_id = o.property_id
     JOIN payment pay ON o.offer_id = pay.offer_id
-    WHERE o.buyer_id = $user_id AND pay.status = 'Completed'
+    WHERE o.buyer_id = $user_id 
+    AND pay.status = 'Completed'
+    AND pay.payment_type = 'Sale'
 ";
 
+// Query for Rented Properties (Rental)
+$query_rental = "
+    SELECT 
+        p.*, 
+        (SELECT image_url FROM property_image WHERE property_id = p.property_id LIMIT 1) AS image_url,
+        pay.payment_date, 
+        pay.status AS payment_status, 
+        'Rental' AS transaction_type
+    FROM property_listings p
+    JOIN rental_interest ri ON p.property_id = ri.property_id
+    JOIN payment pay ON ri.interest_id = pay.rental_interest_id
+    WHERE ri.buyer_id = $user_id 
+    AND pay.status = 'Completed'
+    AND pay.payment_type = 'Rental'
+";
 
-$result = mysqli_query($con, $query);
+// Combine Sale and Rental using UNION ALL
+$final_query = "$query_sale UNION ALL $query_rental ORDER BY payment_date DESC";
+$result = mysqli_query($con, $final_query);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
