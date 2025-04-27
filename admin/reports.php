@@ -1,6 +1,9 @@
 <?php
 require("config.php");
-session_start();
+include("header.php");
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Access Control
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
@@ -12,13 +15,18 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Reports & Analytics</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>LM Homes - Reports & Analytics</title>
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.png">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/feathericon.min.css">
+    <link rel="stylesheet" href="assets/plugins/morris/morris.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .chart-container {
-            width: 70%;
-            margin: auto;
+            width: 80%;
+            margin: 30px auto;
             padding: 20px;
         }
         canvas {
@@ -28,91 +36,108 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 </head>
 <body>
 
-<!-- Correct Header Include -->
-<?php include("../include/header.php"); ?>
+<!-- Header -->
+<?php include("header.php"); ?>
+<!-- /Header -->
 
-<div class="container mt-4">
-    <h2>Reports & Analytics Dashboard</h2>
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+    <div class="content container-fluid">
 
-    <!-- Property Sales Report (Day-wise) -->
-    <h4 class="mt-4">Property Sales Report (Day-wise)</h4>
-    <div class="chart-container">
-        <canvas id="salesChart"></canvas>
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">📊 Reports & Analytics Dashboard</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="admin_dashboard.php">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Reports & Analytics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <!-- Property Sales Report -->
+        <h4 class="mt-4">🏘️ Property Sales Report (Day-wise)</h4>
+        <div class="chart-container">
+            <canvas id="salesChart"></canvas>
+        </div>
+        <?php
+        $salesData = mysqli_query($con, 
+            "SELECT DATE(created_at) AS Day, COUNT(*) AS Properties_Sold 
+             FROM property_listings 
+             WHERE status = 'sold' 
+             GROUP BY DATE(created_at)
+             ORDER BY DATE(created_at)");
+        $days = [];
+        $sales = [];
+        while ($row = mysqli_fetch_assoc($salesData)) {
+            $days[] = $row['Day'];
+            $sales[] = $row['Properties_Sold'];
+        }
+        ?>
+
+        <!-- User Engagement Report -->
+        <h4 class="mt-5">👥 User Engagement (Registrations Per Day)</h4>
+        <div class="chart-container">
+            <canvas id="userChart"></canvas>
+        </div>
+        <?php
+        $userData = mysqli_query($con, 
+            "SELECT DATE(date_of_creation) AS Day, COUNT(*) AS Registrations 
+             FROM user 
+             GROUP BY DATE(date_of_creation)
+             ORDER BY DATE(date_of_creation)");
+        $userDays = [];
+        $userCounts = [];
+        while ($row = mysqli_fetch_assoc($userData)) {
+            $userDays[] = $row['Day'];
+            $userCounts[] = $row['Registrations'];
+        }
+        ?>
+
+        <!-- Market Trends Report -->
+        <h4 class="mt-5">📌 Market Trends (Average Property Price by Location)</h4>
+        <div class="chart-container">
+            <canvas id="priceChart"></canvas>
+        </div>
+        <?php
+        $priceData = mysqli_query($con, 
+            "SELECT location, AVG(price) AS AvgPrice 
+             FROM property_listings 
+             GROUP BY location");
+        $locations = [];
+        $avgPrices = [];
+        while ($row = mysqli_fetch_assoc($priceData)) {
+            $locations[] = $row['location'];
+            $avgPrices[] = $row['AvgPrice'];
+        }
+        ?>
+
+        <!-- Property Types Distribution -->
+        <h4 class="mt-5">🏠 Property Types Distribution</h4>
+        <div class="chart-container">
+            <canvas id="typeChart"></canvas>
+        </div>
+        <?php
+        $typeData = mysqli_query($con, 
+            "SELECT property_type, COUNT(*) AS Count 
+             FROM property_listings 
+             GROUP BY property_type");
+        $types = [];
+        $typeCounts = [];
+        while ($row = mysqli_fetch_assoc($typeData)) {
+            $types[] = $row['property_type'];
+            $typeCounts[] = $row['Count'];
+        }
+        ?>
     </div>
-    <?php
-    $salesData = mysqli_query($con, 
-        "SELECT DATE(created_at) AS Day, COUNT(*) AS Properties_Sold 
-         FROM property_listings 
-         WHERE status = 'sold' 
-         GROUP BY DATE(created_at)
-         ORDER BY DATE(created_at)");
-    $days = [];
-    $sales = [];
-    while ($row = mysqli_fetch_assoc($salesData)) {
-        $days[] = $row['Day'];
-        $sales[] = $row['Properties_Sold'];
-    }
-    ?>
-
-    <!-- User Engagement Report (Day-wise) -->
-    <h4 class="mt-5">User Engagement (Registrations Per Day)</h4>
-    <div class="chart-container">
-        <canvas id="userChart"></canvas>
-    </div>
-    <?php
-    $userData = mysqli_query($con, 
-        "SELECT DATE(date_of_creation) AS Day, COUNT(*) AS Registrations 
-         FROM user 
-         GROUP BY DATE(date_of_creation)
-         ORDER BY DATE(date_of_creation)");
-    $userDays = [];
-    $userCounts = [];
-    while ($row = mysqli_fetch_assoc($userData)) {
-        $userDays[] = $row['Day'];
-        $userCounts[] = $row['Registrations'];
-    }
-    ?>
-
-    <!-- Market Trends Report (Average Property Price by Location) -->
-    <h4 class="mt-5">Market Trends (Average Property Price by Location)</h4>
-    <div class="chart-container">
-        <canvas id="priceChart"></canvas>
-    </div>
-    <?php
-    $priceData = mysqli_query($con, 
-        "SELECT location, AVG(price) AS AvgPrice 
-         FROM property_listings 
-         GROUP BY location");
-    $locations = [];
-    $avgPrices = [];
-    while ($row = mysqli_fetch_assoc($priceData)) {
-        $locations[] = $row['location'];
-        $avgPrices[] = $row['AvgPrice'];
-    }
-    ?>
-
-    <!-- Extra Report: Property Types Count -->
-    <h4 class="mt-5">Property Types Distribution</h4>
-    <div class="chart-container">
-        <canvas id="typeChart"></canvas>
-    </div>
-    <?php
-    $typeData = mysqli_query($con, 
-        "SELECT property_type, COUNT(*) AS Count 
-         FROM property_listings 
-         GROUP BY property_type");
-    $types = [];
-    $typeCounts = [];
-    while ($row = mysqli_fetch_assoc($typeData)) {
-        $types[] = $row['property_type'];
-        $typeCounts[] = $row['Count'];
-    }
-    ?>
 </div>
+<!-- /Page Wrapper -->
 
 <!-- Chart.js Scripts -->
 <script>
-    // Property Sales Chart
     const salesCtx = document.getElementById('salesChart').getContext('2d');
     new Chart(salesCtx, {
         type: 'bar',
@@ -127,7 +152,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
         }
     });
 
-    // User Registrations Chart
     const userCtx = document.getElementById('userChart').getContext('2d');
     new Chart(userCtx, {
         type: 'line',
@@ -143,7 +167,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
         }
     });
 
-    // Market Trends Chart
     const priceCtx = document.getElementById('priceChart').getContext('2d');
     new Chart(priceCtx, {
         type: 'pie',
@@ -164,7 +187,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
         }
     });
 
-    // Property Type Chart (Extra Report)
     const typeCtx = document.getElementById('typeChart').getContext('2d');
     new Chart(typeCtx, {
         type: 'bar',
@@ -179,6 +201,16 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
         }
     });
 </script>
+
+<!-- Scripts -->
+<script src="assets/js/jquery-3.2.1.min.js"></script>
+<script src="assets/js/popper.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="assets/plugins/raphael/raphael.min.js"></script>
+<script src="assets/plugins/morris/morris.min.js"></script>
+<script src="assets/js/chart.morris.js"></script>
+<script src="assets/js/script.js"></script>
 
 </body>
 </html>
