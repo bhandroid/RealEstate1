@@ -4,7 +4,7 @@ require_once('vendor/autoload.php'); // or stripe-php/init.php manually
 
 include("config.php");
 
-\Stripe\Stripe::setApiKey(''); // put your Secret Key here
+\Stripe\Stripe::setApiKey('sk_test_51RIUdUCvJxhejvyKqPFtEJlPn1a8KbRluAir0RBb56xPhn64OtkcUUiJ2eauVBHhwSpMWX5GkgmjCHzFtz8jZChp00WCHzX0o7'); // put your Secret Key here
 
 $pid = (int)$_GET['pid'];
 $buyer_id = $_SESSION['user_id'];

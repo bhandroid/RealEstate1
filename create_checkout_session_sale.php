@@ -4,7 +4,7 @@ require_once('vendor/autoload.php');
 
 include("config.php");
 
-\Stripe\Stripe::setApiKey('');
+\Stripe\Stripe::setApiKey('sk_test_51RIUdUCvJxhejvyKqPFtEJlPn1a8KbRluAir0RBb56xPhn64OtkcUUiJ2eauVBHhwSpMWX5GkgmjCHzFtz8jZChp00WCHzX0o7');
 
 $offer_id = (int)$_GET['offer_id'];
 
