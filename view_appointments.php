@@ -3,10 +3,10 @@ ini_set('session.cache_limiter','public');
 session_cache_limiter(false);
 session_start();
 include("config.php");
+include("include/header.php"); 
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-include("include/header.php"); 
     
 require 'include/mailer/PHPMailer.php';
 require 'include/mailer/SMTP.php';

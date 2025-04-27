@@ -2,6 +2,7 @@
 session_start();
 include("config.php");
 include("functions.php");  // ✅ Include your audit log function
+include("include/header.php");
 
 $user_id = $_SESSION['uid'] ?? null;
 $role = $_SESSION['role'] ?? '';
@@ -62,56 +63,86 @@ if (isset($_POST['add_image']) && isset($_FILES['new_image']['name'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Edit Property with Images</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,500,600,700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa:400,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="css/layerslider.css">
+    <link rel="stylesheet" type="text/css" href="css/color.css" id="color-change">
+    <link rel="stylesheet" type="text/css" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/flaticon/flaticon.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style>
+        .center-form {
+            max-width: 600px;
+            margin: 30px auto;
+            text-align: left;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
-<body class="container mt-5">
-<h3>Edit Property #<?= $property_id ?></h3>
-<?php if (!empty($msg)) echo "<div class='alert alert-info'>$msg</div>"; ?>
+<body>
+    <div class="center-form">
+        <h3>Edit Property #<?= $property_id ?></h3>
+        <?php if (!empty($msg)) echo "<div class='alert alert-info'>$msg</div>"; ?>
 
-<!-- ✅ Property Edit Form -->
-<form method="POST">
-    <div class="form-group">
-        <label>Title:</label>
-        <input type="text" name="title" class="form-control" value="<?= htmlspecialchars($property['title']) ?>" required>
-    </div>
-    <div class="form-group">
-        <label>Description:</label>
-        <textarea name="description" class="form-control" required><?= htmlspecialchars($property['description']) ?></textarea>
-    </div>
-    <div class="form-group">
-        <label>Price:</label>
-        <input type="number" name="price" class="form-control" value="<?= $property['price'] ?>" required>
-    </div>
-    <div class="form-group">
-        <label>Location:</label>
-        <input type="text" name="location" class="form-control" value="<?= htmlspecialchars($property['location']) ?>" required>
-    </div>
-    <button type="submit" name="update" class="btn btn-primary">Update Property</button>
-</form>
+        <!-- ✅ Property Edit Form -->
+        <form method="POST">
+            <div class="form-group">
+                <label>Title:</label>
+                <input type="text" name="title" class="form-control" value="<?= htmlspecialchars($property['title']) ?>" required>
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea name="description" class="form-control" required><?= htmlspecialchars($property['description']) ?></textarea>
+            </div>
+            <div class="form-group">
+                <label>Price:</label>
+                <input type="number" name="price" class="form-control" value="<?= $property['price'] ?>" required>
+            </div>
+            <div class="form-group">
+                <label>Location:</label>
+                <input type="text" name="location" class="form-control" value="<?= htmlspecialchars($property['location']) ?>" required>
+            </div>
+            <button type="submit" name="update" class="btn btn-primary">Update Property</button>
+        </form>
 
-<hr>
+        <hr>
 
-<!-- ✅ Add More Images -->
-<h4>Add More Images</h4>
-<form method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-        <input type="file" name="new_image" required>
+        <!-- ✅ Add More Images -->
+        <h4>Add More Images</h4>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="new_image" required>
+            </div>
+            <button type="submit" name="add_image" class="btn btn-secondary">Upload Image</button>
+        </form>
     </div>
-    <button type="submit" name="add_image" class="btn btn-secondary">Upload Image</button>
-</form>
 
-<!-- ✅ Show Existing Images -->
-<h5 class="mt-4">Uploaded Images:</h5>
-<div class="row">
-<?php
-$image_result = mysqli_query($con, "SELECT * FROM property_image WHERE property_id = $property_id");
-while ($img = mysqli_fetch_assoc($image_result)):
-?>
-    <div class="col-md-3 mb-3">
-        <img src="admin/property/<?= htmlspecialchars($img['image_url']) ?>" class="img-thumbnail">
+    <!-- ✅ Show Existing Images -->
+    <h5 class="mt-4 text-center">Uploaded Images:</h5>
+    <div class="row justify-content-center">
+        <?php
+        $image_result = mysqli_query($con, "SELECT * FROM property_image WHERE property_id = $property_id");
+        while ($img = mysqli_fetch_assoc($image_result)):
+        ?>
+            <div class="col-md-3 mb-3">
+                <img src="admin/property/<?= htmlspecialchars($img['image_url']) ?>" class="img-thumbnail">
+            </div>
+        <?php endwhile; ?>
     </div>
-<?php endwhile; ?>
-</div>
 </body>
+
+<?php include("include/footer.php"); ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/custom.js"></script>
 </html>
