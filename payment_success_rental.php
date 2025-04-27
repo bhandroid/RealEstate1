@@ -19,5 +19,5 @@ mysqli_query($con, "INSERT INTO payment (rental_interest_id, seller_id, amount_p
 // Update property status
 mysqli_query($con, "UPDATE property_listings SET status = 'Sold' WHERE property_id = $pid");
 
-echo "<h2>✅ Rental Payment Successful!</h2><a href='dashboard.php'>Go to Dashboard</a>";
+echo "<h2>✅ Rental Payment Successful!</h2><a href='Bought_Propertyes.php'>Go to My Properties</a>";
 ?>
