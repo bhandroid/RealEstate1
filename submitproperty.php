@@ -23,11 +23,20 @@ if (isset($_POST['add'])) {
     $description = $_POST['description'];
     $price = $_POST['price'];
     $location = $_POST['location'];
+
+    $zip = $_POST['zip'];
+    $street = $_POST['street'];
+    $state = $_POST['state'];
+
+
     $property_type = $_POST['property_type'];
     $bedrooms = $_POST['bedrooms'];
     $bathrooms = $_POST['bathrooms'];
     $size_sqft = $_POST['size_sqft'];
-    $amenities = $_POST['amenities'];
+
+    $pool_available = $_POST['pool_available'];
+    $is_dog_friendly = $_POST['is_dog_friendly'];
+
     $nearest_school = $_POST['nearest_school'];
     $bus_availability = $_POST['bus_availability'];
     $tram_availability = $_POST['tram_availability'];
@@ -36,9 +45,9 @@ if (isset($_POST['add'])) {
 
     // ✅ Insert into property_listings table
     $sql = "INSERT INTO property_listings 
-        (title, description, price, location, property_type, bedrooms, bathrooms, size_sqft, amenities, nearest_school, bus_availability, tram_availability, seller_id, status, created_at)
+        (title, description, price, street,location,state,zip ,property_type, bedrooms, bathrooms, size_sqft, pool_available,is_dog_friendly, nearest_school, bus_availability, tram_availability, seller_id, status, created_at)
         VALUES 
-        ('$title', '$description', '$price', '$location', '$property_type', '$bedrooms', '$bathrooms', '$size_sqft', '$amenities', '$nearest_school', '$bus_availability', '$tram_availability', '$seller_id', '$status', NOW())";
+        ('$title', '$description', '$price', '$street','$location','$state','$zip', '$property_type', '$bedrooms', '$bathrooms', '$size_sqft', '$pool_available','is_dog_friendly', '$nearest_school', '$bus_availability', '$tram_availability', '$seller_id', '$status', NOW())";
 
     $result = mysqli_query($con, $sql);
 
@@ -152,7 +161,12 @@ if (isset($_POST['add'])) {
                                 <div class="form-group"><label>Title</label><input type="text" name="title" class="form-control" required></div>
                                 <div class="form-group"><label>Description</label><textarea name="description" class="form-control" required></textarea></div>
                                 <div class="form-group"><label>Price</label><input type="number" name="price" class="form-control" required></div>
-                                <div class="form-group"><label>Location</label><input type="text" name="location" class="form-control" required></div>
+                                <div class="form-group"><label>Street</label><input type="text" name="street" class="form-control" required></div>
+
+                                <div class="form-group"><label>City</label><input type="text" name="location" class="form-control" required></div>
+                                <div class="form-group"><label>State</label><input type="text" name="state" class="form-control" required></div>
+                                <div class="form-group"><label>Zip</label><input type="text" name="zip" class="form-control" required></div>
+
                                 <div class="form-group">
                                     <label>Property Type</label>
                                     <select name="property_type" class="form-control" id="property_type" required>
@@ -165,7 +179,19 @@ if (isset($_POST['add'])) {
                                     <div class="form-group"><label>Available Date</label><input type="date" name="available_date" class="form-control"></div>
                                     <div class="form-group"><label>Security Deposit</label><input type="number" name="security_deposit" class="form-control"></div>
                                 </div>
-                                <div class="form-group"><label>Amenities</label><textarea name="amenities" class="form-control"></textarea></div>
+                                <div class="form-group"><label>Pool Available</label>
+                                    <select name="pool_available" class="form-control">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"><label>Dog Friendly</label>
+                                    <select name="is_dog_friendly" class="form-control">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+
                                 <div class="form-group"><label>Nearest School</label><input type="text" name="nearest_school" class="form-control"></div>
                             </div>
                             <div class="col-lg-6">

@@ -1,7 +1,6 @@
 <?php
 session_start();
 include("config.php");
-include("include/header.php");
 $user_id = $_SESSION['uid'] ?? null;
 $role = $_SESSION['role'] ?? '';
 $property_id = $_GET['property_id'] ?? null;
@@ -34,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['interest_id'], $_POST
     header("Location: view_rental_interest.php?property_id=$property_id");
     exit();
 }
+include("include/header.php");
 
 // Fetch all rental interests
 $result = mysqli_query($con, "

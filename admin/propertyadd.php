@@ -15,22 +15,26 @@ if (isset($_POST['add'])) {
     $title = $_POST['title'];
     $description = $_POST['description'];
     $price = $_POST['price'];
+    $street = $_POST['street'];
     $location = $_POST['location'];
+    $state = $_POST['state'];
+    $zip = $_POST['zip'];
     $property_type = $_POST['property_type'];
     $bedrooms = $_POST['bedrooms'];
     $bathrooms = $_POST['bathrooms'];
     $size_sqft = $_POST['size_sqft'];
-    $amenities = $_POST['amenities'];
     $nearest_school = $_POST['nearest_school'];
     $bus_availability = $_POST['bus_availability'];
     $tram_availability = $_POST['tram_availability'];
+    $pool_available = $_POST['pool_available'];
+    $is_dog_friendly = $_POST['is_dog_friendly'];
     $status = $_POST['status'];
     $seller_id = $_POST['seller_id'];
 
     $sql = "INSERT INTO property_listings 
-        (title, description, price, location, property_type, bedrooms, bathrooms, size_sqft, amenities, nearest_school, bus_availability, tram_availability, seller_id, status, created_at)
+        (title, description, price, street, location, state, zip, property_type, bedrooms, bathrooms, size_sqft, nearest_school, bus_availability, tram_availability, pool_available, is_dog_friendly, seller_id, status, created_at)
         VALUES 
-        ('$title', '$description', '$price', '$location', '$property_type', '$bedrooms', '$bathrooms', '$size_sqft', '$amenities', '$nearest_school', '$bus_availability', '$tram_availability', '$seller_id', '$status', NOW())";
+        ('$title', '$description', '$price', '$street', '$location', '$state', '$zip', '$property_type', '$bedrooms', '$bathrooms', '$size_sqft', '$nearest_school', '$bus_availability', '$tram_availability', '$pool_available', '$is_dog_friendly', '$seller_id', '$status', NOW())";
 
     $result = mysqli_query($con, $sql);
 
@@ -38,7 +42,7 @@ if (isset($_POST['add'])) {
         $property_id = mysqli_insert_id($con);
         addAuditLog($_SESSION['uid'], 'ADMIN_ADD_PROPERTY', 'Admin added property with title: ' . $title . ' for Seller/Agent ID: ' . $seller_id);
 
-        // Handle image upload
+        // ✅ Handle image upload
         if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
             $imgName = basename($_FILES['image']['name']);
             $targetPath = "property/" . $imgName;
@@ -53,7 +57,7 @@ if (isset($_POST['add'])) {
             mysqli_query($con, $imgSql);
         }
 
-        // Handle rental contract
+        // ✅ Handle rental contract
         if (strtolower($property_type) === 'rental') {
             $available_date = $_POST['available_date'];
             $security_deposit = $_POST['security_deposit'];
@@ -98,18 +102,22 @@ if (isset($_POST['add'])) {
                 <div class="form-group"><label>Title</label><input type="text" name="title" class="form-control" required></div>
                 <div class="form-group"><label>Description</label><textarea name="description" class="form-control" required></textarea></div>
                 <div class="form-group"><label>Price</label><input type="number" name="price" class="form-control" required></div>
-                <div class="form-group"><label>Location</label><input type="text" name="location" class="form-control" required></div>
-                
+
+                <h5 class="mt-4">Address Details</h5>
+                <div class="form-group"><label>Street</label><input type="text" name="street" class="form-control" required></div>
+                <div class="form-group"><label>City</label><input type="text" name="location" class="form-control" required></div>
+                <div class="form-group"><label>State</label><input type="text" name="state" class="form-control" required></div>
+                <div class="form-group"><label>Zip</label><input type="text" name="zip" class="form-control" required></div>
+
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>Property Type</label>
                         <select name="property_type" class="form-control" id="property_type" required>
                             <option value="">Select</option>
-                            <option value="Apartment">Apartment</option>
-                            <option value="House">House</option>
-                            <option value="Villa">Villa</option>
-                            <option value="Rental">Rental</option>
+                            <option value="Sale" <?= (isset($row['property_type']) && $row['property_type'] === 'Sale') ? 'selected' : '' ?>>Sale</option>
+                            <option value="Rental" <?= (isset($row['property_type']) && $row['property_type'] === 'Rental') ? 'selected' : '' ?>>Rental</option>
                         </select>
+
                     </div>
                     <div class="form-group col-md-6">
                         <label>Status</label>
@@ -133,14 +141,7 @@ if (isset($_POST['add'])) {
                     <div class="form-group col-md-4"><label>Size (sqft)</label><input type="number" name="size_sqft" class="form-control" required></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6"><label>Amenities</label><textarea name="amenities" class="form-control"></textarea></div>
-                    <div class="form-group col-md-3">
-                        <label>Bus Availability</label>
-                        <select name="bus_availability" class="form-control">
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select>
-                    </div>
+                   
                     <div class="form-group col-md-3">
                         <label>Tram Availability</label>
                         <select name="tram_availability" class="form-control">
@@ -148,8 +149,32 @@ if (isset($_POST['add'])) {
                             <option value="No">No</option>
                         </select>
                     </div>
+                    <div class="form-group col-md-3">
+                        <label>Bus Availability</label>
+                        <select name="bus_availability" class="form-control">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group"><label>Nearest School</label><input type="text" name="nearest_school" class="form-control"></div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Pool Available</label>
+                        <select name="pool_available" class="form-control">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Dog Friendly</label>
+                        <select name="is_dog_friendly" class="form-control">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label>Property Image</label>
@@ -189,6 +214,5 @@ if (isset($_POST['add'])) {
         document.getElementById("rental_fields").style.display = val === "rental" ? "block" : "none";
     });
 </script>
-
 </body>
 </html>
