@@ -60,7 +60,11 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <li><a class="dropdown-item" href="profile.php">Profile</a></li>
-                                            <li><a class="dropdown-item" href="feature.php">Your Property</a></li>
+                                            <?php if (isset($_SESSION['role']) && in_array(strtolower($_SESSION['role']), ['buyer', 'agent'])): ?>
+                                                <li><a class="dropdown-item" href="Bought_Propertyes.php">Bought Properties</a></li>
+                                            <?php endif; ?>
+
+                                            
                                             <li><a class="dropdown-item" href="logout.php">Logout</a></li>
                                         </ul>
                                     </li>

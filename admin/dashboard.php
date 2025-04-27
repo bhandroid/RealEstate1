@@ -108,34 +108,10 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
 
         <div class="row">
             <!-- Apartments -->
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="dash-widget-header">
-                            <span class="dash-widget-icon bg-warning"><i class="fe fe-table"></i></span>
-                        </div>
-                        <div class="dash-widget-info">
-                            <h3><?php $sql = "SELECT COUNT(*) AS apartments FROM property_listings WHERE property_type = 'apartment'"; $query = $con->query($sql); echo $query->fetch_assoc()['apartments']; ?></h3>
-                            <h6 class="text-muted">Apartments</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
 
             <!-- Houses -->
-            <div class="col-xl-3 col-sm-6 col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="dash-widget-header">
-                            <span class="dash-widget-icon bg-info"><i class="fe fe-home"></i></span>
-                        </div>
-                        <div class="dash-widget-info">
-                            <h3><?php $sql = "SELECT COUNT(*) AS houses FROM property_listings WHERE property_type = 'house'"; $query = $con->query($sql); echo $query->fetch_assoc()['houses']; ?></h3>
-                            <h6 class="text-muted">Houses</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
 
             <!-- For Sale -->
             <div class="col-xl-3 col-sm-6 col-12">
@@ -145,7 +121,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                             <span class="dash-widget-icon bg-secondary"><i class="fe fe-briefcase"></i></span>
                         </div>
                         <div class="dash-widget-info">
-                            <h3><?php $sql = "SELECT COUNT(*) AS sale FROM property_listings WHERE property_type = 'for_sale'"; $query = $con->query($sql); echo $query->fetch_assoc()['sale']; ?></h3>
+                            <h3><?php $sql = "SELECT COUNT(*) AS sale FROM property_listings WHERE property_type = 'sale'"; $query = $con->query($sql); echo $query->fetch_assoc()['sale']; ?></h3>
                             <h6 class="text-muted">Properties For Sale</h6>
                         </div>
                     </div>

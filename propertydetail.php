@@ -115,20 +115,51 @@ $buyer_id = $_SESSION['user_id'] ?? 0;
 <div class="container">
     <div class="property-box">
         <h2 class="mb-4 text-center"><?= htmlspecialchars($row['title']) ?></h2>
-        <p><strong>📍 Location:</strong> <?= htmlspecialchars($row['location']) ?></p>
-        <p><strong>💰 Price:</strong> ₹<?= number_format($row['price'], 2) ?></p>
-        <p><strong>🏠 Type:</strong> <?= htmlspecialchars($row['property_type']) ?></p>
-        <p><strong>📐 Size:</strong> <?= $row['size_sqft'] ?> Sqft</p>
-        <p><strong>🛏️ Bedrooms:</strong> <?= $row['bedrooms'] ?> | <strong>🚿 Bathrooms:</strong> <?= $row['bathrooms'] ?></p>
-        <p><strong>📝 Description:</strong><br><?= nl2br(htmlspecialchars($row['description'])) ?></p>
 
+        <h4>🏡 Property Details</h4>
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-md-6">
+                <p><strong>📍 Location:</strong> <?= htmlspecialchars($row['street'] . ', ' . $row['location'] . ', ' . $row['state'] . ' - ' . $row['zip']) ?></p>
+                <p><strong>💰 Price:</strong> ₹<?= number_format($row['price'], 2) ?></p>
+                <p><strong>🏠 Type:</strong> <?= htmlspecialchars($row['property_type']) ?></p>
+                <p><strong>📐 Size:</strong> <?= $row['size_sqft'] ?> Sqft</p>
+                <p><strong>🛏️ Bedrooms:</strong> <?= $row['bedrooms'] ?></p>
+                <p><strong>🚿 Bathrooms:</strong> <?= $row['bathrooms'] ?></p>
+                <?php if (!empty($row['amenities'])): ?>
+                    <p><strong>🛠️ Amenities:</strong> <?= htmlspecialchars($row['amenities']) ?></p>
+                <?php endif; ?>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-6">
+                <?php if (!empty($row['nearest_school'])): ?>
+                    <p><strong>🏫 Nearest School:</strong> <?= htmlspecialchars($row['nearest_school']) ?></p>
+                <?php endif; ?>
+                <p><strong>🚌 Bus Availability:</strong> <?= htmlspecialchars($row['bus_availability']) ?></p>
+                <p><strong>🚋 Tram Availability:</strong> <?= htmlspecialchars($row['tram_availability']) ?></p>
+                <p><strong>🏊 Pool Available:</strong> <?= htmlspecialchars($row['pool_available']) ?></p>
+                <p><strong>🐕 Dog Friendly:</strong> <?= htmlspecialchars($row['is_dog_friendly']) ?></p>
+                <p><strong>📌 Status:</strong> <?= htmlspecialchars($row['status']) ?></p>
+                <?php if (!empty($row['created_at'])): ?>
+                    <p><strong>📅 Posted On:</strong> <?= date("d M Y", strtotime($row['created_at'])) ?></p>
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <hr>
         <h4 class="mt-4">👤 Seller Contact Info</h4>
         <p><strong>Name:</strong> <?= htmlspecialchars($row['uname']) ?></p>
         <p><strong>Email:</strong> <?= htmlspecialchars($row['uemail']) ?></p>
         <p><strong>Phone:</strong> <?= htmlspecialchars($row['uphone']) ?></p>
 
+        <h4 class="mt-4">📝 Description</h4>
+        <p><?= nl2br(htmlspecialchars($row['description'])) ?></p>
+
+
         <?php
-        if (isset($_SESSION['role']) && $_SESSION['role'] === 'Buyer') {
+        if (isset($_SESSION['role']) && in_array($_SESSION['role'], ['Buyer', 'Agent']))
+        {
             if ($property_type === 'rental') {
                 $rental_query = mysqli_query($con, "SELECT * FROM rental_interest WHERE property_id = $property_id AND buyer_id = $buyer_id");
                 if (mysqli_num_rows($rental_query) === 0) {
@@ -214,7 +245,8 @@ $buyer_id = $_SESSION['user_id'] ?? 0;
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <?php
-if (isset($_POST['submit_offer']) && $_SESSION['role'] === 'Buyer') {
+if (isset($_POST['submit_offer']) && in_array($_SESSION['role'], ['Buyer', 'Agent'])){
+
     $offer_price = $_POST['offer_price'];
     $offer_date = date('Y-m-d');
     mysqli_query($con, "INSERT INTO offer (property_id, buyer_id, offer_price, offer_date, status) VALUES ($pid, $buyer_id, $offer_price, '$offer_date', 'Pending')");
@@ -222,7 +254,7 @@ if (isset($_POST['submit_offer']) && $_SESSION['role'] === 'Buyer') {
     exit;
 }
 
-if (isset($_POST['make_payment']) && $_SESSION['role'] === 'Buyer') {
+if (isset($_POST['make_payment']) && in_array($_SESSION['role'], ['Buyer', 'Agent'])){
     $offer_id = $_POST['offer_id'];
     $method = $_POST['payment_method'];
     $date = date('Y-m-d');
@@ -239,15 +271,15 @@ if (isset($_POST['make_payment']) && $_SESSION['role'] === 'Buyer') {
     exit;
 }
 
-if (isset($_POST['interested_rental']) && $_SESSION['role'] === 'Buyer') {
+if (isset($_POST['interested_rental']) && in_array($_SESSION['role'], ['Buyer', 'Agent'])){
     $date = date('Y-m-d');
     mysqli_query($con, "INSERT INTO rental_interest (property_id, buyer_id, interest_date, status) VALUES ($pid, $buyer_id, '$date', 'Pending')");
     header("Location: propertydetail.php?pid=$pid");
     exit;
 }
 
-if (isset($_POST['rental_payment']) && $_SESSION['role'] === 'Buyer') {
-    $method = $_POST['payment_method'];
+if (isset($_POST['rental_payment']) && in_array($_SESSION['role'], ['Buyer', 'Agent'])){
+$method = $_POST['payment_method'];
     $date = date('Y-m-d');
     $rental_res = mysqli_query($con, "SELECT interest_id FROM rental_interest WHERE property_id = $pid AND buyer_id = $buyer_id AND status = 'Accepted'");
     $rental = mysqli_fetch_assoc($rental_res);
