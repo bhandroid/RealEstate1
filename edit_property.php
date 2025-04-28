@@ -14,6 +14,18 @@ if (!$user_id || !$property_id || !in_array($role, ['Seller', 'Agent'])) {
 
 $check = mysqli_query($con, "SELECT * FROM property_listings WHERE property_id = $property_id AND seller_id = $user_id");
 $property = mysqli_fetch_assoc($check);
+$rental_data = [
+    'available_date' => '',
+    'security_deposit' => ''
+];
+
+if (strtolower($property['property_type']) === 'rental') {
+    $rental_check = mysqli_query($con, "SELECT available_date, security_deposit FROM rental_contracts WHERE property_id = $property_id");
+    if ($rental_row = mysqli_fetch_assoc($rental_check)) {
+        $rental_data = $rental_row;
+    }
+}
+
 
 if (!$property) {
     die("❌ Property not found or not owned by you.");
@@ -163,13 +175,13 @@ if (isset($_POST['add_image']) && isset($_FILES['new_image']['name'])) {
             <div class="form-group">
              <label>Available Date:</label>
                  <input type="date" name="available_date" class="form-control" 
-               value="<?= isset($property['available_date']) ? $property['available_date'] : '' ?>">
-             </div>
+                 value="<?= htmlspecialchars($rental_data['available_date']) ?>">
+                 </div>
                 <div class="form-group">
                 <label>Security Deposit:</label>
                     <input type="number" name="security_deposit" class="form-control" 
-               value="<?= isset($property['security_deposit']) ? $property['security_deposit'] : '' ?>">
-            </div>
+                    value="<?= htmlspecialchars($rental_data['security_deposit']) ?>">
+                    </div>
             </div>
 
             <div class="form-group"><label>Bedrooms:</label><input type="number" name="bedrooms" class="form-control" value="<?= $property['bedrooms'] ?>" required></div>

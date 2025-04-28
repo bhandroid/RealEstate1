@@ -55,19 +55,25 @@ if (isset($_POST['add'])) {
         $property_id = mysqli_insert_id($con);
 
         // ✅ Handle property image upload
-        if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-            $imgName = basename($_FILES['image']['name']);
-            $targetPath = "admin/property/" . $imgName;
-
-            if (!is_dir("admin/property")) {
-                mkdir("admin/property", 0777, true);
+        if (isset($_FILES['images'])) {
+            $totalImages = count($_FILES['images']['name']);
+            for ($i = 0; $i < $totalImages; $i++) {
+                if ($_FILES['images']['error'][$i] === 0) {
+                    $imgName = basename($_FILES['images']['name'][$i]);
+                    $targetPath = "admin/property/" . $imgName;
+        
+                    if (!is_dir("admin/property")) {
+                        mkdir("admin/property", 0777, true);
+                    }
+        
+                    move_uploaded_file($_FILES['images']['tmp_name'][$i], $targetPath);
+        
+                    $imgSql = "INSERT INTO property_image (property_id, image_url) VALUES ('$property_id', '$imgName')";
+                    mysqli_query($con, $imgSql);
+                }
             }
-
-            move_uploaded_file($_FILES['image']['tmp_name'], $targetPath);
-
-            $imgSql = "INSERT INTO property_image (property_id, image_url) VALUES ('$property_id', '$imgName')";
-            mysqli_query($con, $imgSql);
         }
+        
 
         // ✅ Handle rental-specific data if property type is Rental
         if (strtolower($property_type) === 'rental') {
@@ -216,7 +222,8 @@ if (isset($_POST['add'])) {
                                         <option value="sold">Sold</option>
                                     </select>
                                 </div>
-                                <div class="form-group"><label>Upload Property Image</label><input type="file" name="image" accept="image/*" class="form-control"></div>
+                                <div class="form-group"><label>Upload Property Image</label><input type="file" name="images[]" accept="image/*" class="form-control" multiple>
+                                </div>
                                 <div class="form-group"><label>&nbsp;</label><input type="submit" name="add" value="Submit Property" class="btn btn-info btn-block"></div>
                             </div>
                         </div>
