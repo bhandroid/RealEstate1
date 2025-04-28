@@ -154,7 +154,7 @@ if (mysqli_num_rows($imgQuery) > 0) {
                         </a>
                     </h5>
                     <p class="text-muted mb-1">
-                        ₹<?= number_format($row['price']); ?> | <?= htmlspecialchars($row['size_sqft']); ?> Sqft
+                        $<?= number_format($row['price']); ?> | <?= htmlspecialchars($row['size_sqft']); ?> Sqft
                     </p>
                     <p class="text-muted mb-2">
                         📍 <?= htmlspecialchars($row['location']); ?>

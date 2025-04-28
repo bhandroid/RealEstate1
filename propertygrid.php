@@ -96,7 +96,7 @@ if (!empty($type) || !empty($city)) {
                             </a>
                         </h5>
                         <p class="card-text">
-                            ₹<?php echo number_format($row['price']); ?> | <?php echo $row['size_sqft']; ?> Sqft<br>
+                            $<?php echo number_format($row['price']); ?> | <?php echo $row['size_sqft']; ?> Sqft<br>
                             Location: <?php echo htmlspecialchars($row['location']); ?><br>
                             Seller: <?php echo htmlspecialchars($row['seller_name']); ?><br>
                             Status: <?php echo ucfirst($row['status']); ?>

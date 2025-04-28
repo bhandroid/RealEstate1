@@ -90,7 +90,7 @@ $query = mysqli_query($con, "
                     <div class="card-body">
                         <h5 class="property-title"><?= htmlspecialchars($row['title']) ?></h5>
                         <p class="card-text text-muted">
-                            ₹<?= number_format($row['price']) ?><br>
+                            $<?= number_format($row['price']) ?><br>
                             📍 <?= htmlspecialchars($row['location']) ?><br>
                             🧱 <?= $row['size_sqft'] ?> Sqft
                         </p>

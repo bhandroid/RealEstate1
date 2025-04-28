@@ -88,7 +88,7 @@ $offers = mysqli_query($con, "
                     <th>Buyer Name</th>
                     <th>Email</th>
                     <th>Phone</th>
-                    <th>Offer Price (₹)</th>
+                    <th>Offer Price ($)</th>
                     <th>Date</th>
                     <th>Status</th>
                     <th>Action</th>

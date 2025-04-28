@@ -186,7 +186,7 @@ include("config.php");
                                     <div class="featured bg-success text-white">New</div>
                                     <div class="sale bg-success text-white text-capitalize">For <?php echo $row['property_type']; ?></div>
                                     <div class="price text-primary">
-                                        <b>₹<?php echo number_format($row['price']); ?></b>
+                                        <b>$<?php echo number_format($row['price']); ?></b>
                                         <span class="text-white"><?php echo $row['size_sqft']; ?> Sqft</span>
                                     </div>
                                 </div>

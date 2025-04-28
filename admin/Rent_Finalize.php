@@ -99,8 +99,8 @@ $result = mysqli_query($con, $query);
                                     <tr>
                                         <td><?= htmlspecialchars($row['buyer_name']) . " (ID: " . $row['buyer_id'] . ")" ?></td>
                                         <td><?= htmlspecialchars($row['property_title']) . " (ID: " . $row['property_id'] . ")" ?></td>
-                                        <td>₹<?= number_format($row['rental_price']) ?></td>
-                                        <td>₹<?= number_format($row['amount_paid']) ?></td>
+                                        <td>$<?= number_format($row['rental_price']) ?></td>
+                                        <td>$<?= number_format($row['amount_paid']) ?></td>
                                         <td><?= htmlspecialchars($row['seller_name']) . " (ID: " . $row['seller_id'] . ")" ?></td>
                                         <td><?= htmlspecialchars($row['payment_method']) ?></td>
                                         <td><?= $row['payment_date'] ?></td>

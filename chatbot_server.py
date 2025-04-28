@@ -190,7 +190,7 @@ Just return SQL query , SQl query should not include Backticks
             if 'title' in property:
                 parts.append(f"{property['title']}")
             if 'price' in property:
-                parts.append(f"priced at ₹{property['price']:,.2f}")
+                parts.append(f"priced at ${property['price']:,.2f}")
             if 'bedrooms' in property and 'bathrooms' in property:
                 parts.append(f"with {property['bedrooms']} bedrooms and {property['bathrooms']} bathrooms")
             if 'location' in property:

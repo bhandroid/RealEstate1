@@ -121,7 +121,7 @@ $buyer_id = $_SESSION['user_id'] ?? 0;
             <!-- Left Column -->
             <div class="col-md-6">
                 <p><strong>📍 Location:</strong> <?= htmlspecialchars($row['street'] . ', ' . $row['location'] . ', ' . $row['state'] . ' - ' . $row['zip']) ?></p>
-                <p><strong>💰 Price:</strong> ₹<?= number_format($row['price'], 2) ?></p>
+                <p><strong>💰 Price:</strong> $<?= number_format($row['price'], 2) ?></p>
                 <p><strong>🏠 Type:</strong> <?= htmlspecialchars($row['property_type']) ?></p>
                 <p><strong>📐 Size:</strong> <?= $row['size_sqft'] ?> Sqft</p>
                 <p><strong>🛏️ Bedrooms:</strong> <?= $row['bedrooms'] ?></p>
@@ -188,7 +188,7 @@ $buyer_id = $_SESSION['user_id'] ?? 0;
                     echo '<h4 class="mt-5 text-secondary">Submit an Offer</h4>
                     <form method="POST">
                         <div class="form-group">
-                            <label>Offer Price (₹)</label>
+                            <label>Offer Price ($)</label>
                             <input type="number" name="offer_price" class="form-control" required>
                         </div>
                         <button type="submit" name="submit_offer" class="btn btn-gradient mt-3">Submit Offer</button>

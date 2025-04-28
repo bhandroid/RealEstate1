@@ -146,7 +146,7 @@ $result = mysqli_query($con, "
                 <div class="card-body">
                     <h5 class="card-title"><?= htmlspecialchars($row['title']) ?></h5>
                     <p class="card-text text-muted mb-3">
-                        <strong>₹<?= number_format($row['price']) ?></strong><br>
+                        <strong>$<?= number_format($row['price']) ?></strong><br>
                         <?= htmlspecialchars($row['location']) ?><br>
                         <?= htmlspecialchars($row['size_sqft']) ?> Sqft
                     </p>
