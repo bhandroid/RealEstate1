@@ -46,15 +46,30 @@ $role = strtolower($_SESSION['role'] ?? '');
         border-bottom: 1px solid #eee;
     }
     .badge-sale {
-        background: linear-gradient(135deg, #28a745, #218838);
-        color: #fff;
-        border-radius: 30px;
-        padding: 5px 15px;
-        font-size: 0.85rem;
-        position: absolute;
-        top: 15px;
-        left: 15px;
-    }
+    background: linear-gradient(135deg, #28a745, #218838); /* Green for Sale */
+    color: #fff;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 0.85rem;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 10; /* 🟢 Ensure it stays on top of the image */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+.badge-rent {
+    background: linear-gradient(135deg, #dc3545, #c82333); /* Red for Rent */
+    color: #fff;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 0.85rem;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
     .btn-book {
         background: linear-gradient(135deg, #007bff, #0056b3);
         color: white;
@@ -114,7 +129,13 @@ $role = strtolower($_SESSION['role'] ?? '');
         ?>
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="property-card shadow-sm position-relative">
-                <span class="badge badge-sale">For <?= htmlspecialchars($row['property_type']); ?></span>
+            <?php 
+$type = strtolower($row['property_type']);
+$badgeClass = ($type === 'rental' || $type === 'rent') ? 'badge-rent' : 'badge-sale';
+?>
+<span class="badge <?= $badgeClass; ?>">
+    <?= ($type === 'rental' || $type === 'rent') ? 'For Rent' : 'For Sale'; ?>
+</span>
                 <?php
 $imgQuery = mysqli_query($con, "SELECT image_url FROM property_image WHERE property_id = $property_id");
 if (mysqli_num_rows($imgQuery) > 0) {

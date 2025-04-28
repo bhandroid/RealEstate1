@@ -97,7 +97,10 @@ $result = mysqli_query($con, $final_query);
                         </p>
                     </div>
                     <div class="card-footer">
-                        <p class="mb-1"><strong>Payment Status:</strong> <?= $row['payment_status'] ?></p>
+                    <p class="mb-1">
+                        <strong>Type:</strong> <?= $row['transaction_type'] ?> <br>
+                        <strong>Payment Status:</strong> <?= $row['payment_status'] ?>
+                    </p>
                         <p class="mb-0"><strong>Payment Date:</strong> <?= date('d-m-Y', strtotime($row['payment_date'])) ?></p>
                     </div>
                 </div>
