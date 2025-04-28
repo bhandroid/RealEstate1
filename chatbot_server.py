@@ -17,7 +17,7 @@ cursor = conn.cursor()
 print("✅ Connected to MySQL!")
 
 # Gemini config
-genai.configure(api_key="AIzaSyATHnD0xvhtG4w_48k9gTALV0BsnAC_cEE")
+genai.configure(api_key="AIzaSyBbLb9Li33EJmmAfIM_yg07HF1j0Pmnq18")
 model = genai.GenerativeModel('gemini-1.5-pro')
 
 schema_description = """
