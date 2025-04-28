@@ -68,23 +68,23 @@ if ($user_id > 0) {
     // 11. Delete property listings where this user is the seller
     mysqli_query($con, "DELETE FROM property_listings WHERE seller_id = $user_id");
 
-    // 12. ✅ NEW STEP: Delete tickets raised by this user
+    // 12. Delete tickets raised by this user
     mysqli_query($con, "DELETE FROM tickets WHERE user_id = $user_id");
 
-    // 13. Finally, delete the user (agent/seller)
-    $sql = "DELETE FROM user WHERE user_id = $user_id AND role = 'agent'";
+    // 13. ✅ Finally, delete the user (seller)
+    $sql = "DELETE FROM user WHERE user_id = $user_id AND role = 'seller'";
     $result = mysqli_query($con, $sql);
 
     if ($result === true) {
-        $msg = "<p class='alert alert-success'>Agent Deleted Successfully</p>";
+        $msg = "<p class='alert alert-success'>Seller Deleted Successfully</p>";
     } else {
-        $msg = "<p class='alert alert-warning'>Agent Not Deleted</p>";
+        $msg = "<p class='alert alert-warning'>Seller Not Deleted</p>";
     }
 } else {
     $msg = "<p class='alert alert-danger'>Invalid User ID</p>";
 }
 
-header("Location: useragent.php?msg=" . urlencode($msg));
+header("Location: userseller.php?msg=" . urlencode($msg));
 mysqli_close($con);
 exit();
 ?>
