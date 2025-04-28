@@ -109,7 +109,8 @@ $role = strtolower($_SESSION['role'] ?? '');
             $seller_id = $row['seller_id'];
             $image = $row['image_url'] ?? 'default.jpg';
 
-            if ($seller_id == $user_id && $role === 'buyer') continue; 
+            if (in_array($role, ['buyer', 'agent']) && $seller_id == $user_id) continue;
+ 
         ?>
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="property-card shadow-sm position-relative">
