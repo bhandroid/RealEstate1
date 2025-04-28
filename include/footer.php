@@ -81,7 +81,7 @@
     </div>
 
     <!-- 🔹 Chatbot UI Starts Here -->
-    <style>
+    <!-- <style>
         #chat-container {
             position: fixed;
             bottom: 20px;
@@ -165,7 +165,7 @@
 
             document.getElementById("user-msg").value = "";
         }
-    </script>
+    </script> -->
     <!-- 🔹 Chatbot UI Ends Here -->
 
 </footer>

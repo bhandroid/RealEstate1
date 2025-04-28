@@ -339,5 +339,86 @@ include("config.php");
 <script src="js/validate.js"></script> 
 <script src="js/jquery.cookie.js"></script> 
 <script src="js/custom.js"></script>
+
+
+
+
+<!-- 🔹 Floating "Need Help?" Button -->
+<button id="chatbot-toggle" 
+    style="position: fixed; bottom: 20px; right: 20px; background: #28a745; color: white; border: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; z-index: 999;">
+    💬 Need Help?
+</button>
+
+<!-- 🔹 Chatbot Popup (Initially Hidden) -->
+<div id="chatbot-popup" style="display: none; position: fixed; bottom: 0; right: 20px; width: 300px; background: #fff; border: 1px solid #ccc; border-radius: 10px; overflow: hidden; box-shadow: 0px 0px 10px rgba(0,0,0,0.2); z-index: 1000;">
+    <div class="chatbot-header" style="background: #28a745; color: white; padding: 10px; font-weight: bold;">
+        Need Help?
+        <span style="float: right; cursor: pointer;" onclick="closeChatbot()">❌</span>
+    </div>
+    <div id="chatbox" style="height: 250px; overflow-y: auto; padding: 10px; background: #f9f9f9;">
+        <!-- Messages will appear here -->
+    </div>
+    <div style="padding: 10px;">
+        <input type="text" id="userInput" class="form-control" placeholder="Type your message...">
+        <button class="btn btn-success btn-chat mt-2 w-100">Send</button>
+    </div>
+</div>
+
+<!-- 🔹 JavaScript to handle Chatbot -->
+<script>
+document.getElementById('chatbot-toggle').addEventListener('click', function() {
+    var popup = document.getElementById('chatbot-popup');
+    popup.style.display = 'block';
+    this.style.display = 'none'; // Hide "Need Help?" button
+});
+
+function closeChatbot() {
+    document.getElementById('chatbot-popup').style.display = 'none';
+    document.getElementById('chatbot-toggle').style.display = 'block';
+}
+
+$(document).ready(function() {
+    // When user clicks Send
+    $(".btn-chat").click(function() {
+        sendMessage();
+    });
+
+    // Or when user presses Enter key
+    $("#userInput").keypress(function(e) {
+        if (e.which == 13) { // Enter key pressed
+            sendMessage();
+            return false;
+        }
+    });
+
+    function sendMessage() {
+        var userMessage = $("#userInput").val().trim();
+        if (userMessage === "") return;
+
+        // Show user's message immediately
+        $("#chatbox").append('<div class="mb-2"><strong>You:</strong> ' + userMessage + '</div>');
+
+        // Send message to backend chatbot.php
+        $.ajax({
+            url: "chatbot.php",
+            method: "POST",
+            data: { message: userMessage },
+            success: function(response) {
+                $("#chatbox").append('<div class="mb-2"><strong>Bot:</strong> ' + response + '</div>');
+                $("#userInput").val(''); // Clear input
+                $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight); // Auto-scroll
+            },
+            error: function(xhr, status, error) {
+                $("#chatbox").append('<div class="mb-2"><strong>Bot:</strong> Oops! Something went wrong.</div>');
+            }
+        });
+    }
+});
+</script>
+
+
+
+
+
 </body>
 </html>
