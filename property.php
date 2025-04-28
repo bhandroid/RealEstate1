@@ -97,12 +97,12 @@ $role = strtolower($_SESSION['role'] ?? '');
     <div class="row">
         <?php 
         $query = mysqli_query($con, "
-            SELECT property_listings.*, user.name AS uname, user.role AS utype, 
-            (SELECT image_url FROM property_image WHERE property_image.property_id = property_listings.property_id LIMIT 1) AS image_url 
-            FROM property_listings 
-            JOIN user ON property_listings.seller_id = user.user_id 
-            WHERE property_listings.status IN ('available', 'hold')
+        SELECT property_listings.*, user.name AS uname, user.role AS utype
+        FROM property_listings 
+        JOIN user ON property_listings.seller_id = user.user_id 
+        WHERE property_listings.status IN ('available', 'hold')
         ");
+    
         
         while($row = mysqli_fetch_assoc($query)) {
             $property_id = $row['property_id'];
@@ -114,7 +114,38 @@ $role = strtolower($_SESSION['role'] ?? '');
         <div class="col-md-6 col-lg-4 mb-4">
             <div class="property-card shadow-sm position-relative">
                 <span class="badge badge-sale">For <?= htmlspecialchars($row['property_type']); ?></span>
-                <img src="admin/property/<?= htmlspecialchars($image); ?>" alt="Property Image" class="property-image w-100">
+                <?php
+$imgQuery = mysqli_query($con, "SELECT image_url FROM property_image WHERE property_id = $property_id");
+if (mysqli_num_rows($imgQuery) > 0) {
+?>
+    <div id="carousel<?= $property_id; ?>" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <?php 
+            $activeSet = false;
+            while ($imgRow = mysqli_fetch_assoc($imgQuery)) {
+                $imgUrl = $imgRow['image_url'];
+            ?>
+                <div class="carousel-item <?= !$activeSet ? 'active' : ''; ?>">
+                    <img src="admin/property/<?= htmlspecialchars($imgUrl); ?>" alt="Property Image" class="property-image w-100">
+                </div>
+            <?php 
+                $activeSet = true;
+            } 
+            ?>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel<?= $property_id; ?>" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel<?= $property_id; ?>" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+<?php 
+} else {
+    // If no image, show default image
+    echo '<img src="admin/property/default.jpg" alt="No Image Available" class="property-image w-100">';
+}
+?>
                 <div class="property-info">
                     <h5 class="property-title">
                         <a href="propertydetail.php?pid=<?= $property_id; ?>" class="text-decoration-none text-dark">

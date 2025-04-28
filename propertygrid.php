@@ -4,7 +4,7 @@ include("config.php");
 
 // Sanitize inputs
 $type = isset($_POST['type']) ? mysqli_real_escape_string($con, $_POST['type']) : '';
-$stype = isset($_POST['stype']) ? mysqli_real_escape_string($con, $_POST['stype']) : '';
+// $stype = isset($_POST['stype']) ? mysqli_real_escape_string($con, $_POST['stype']) : '';
 $city = isset($_POST['city']) ? mysqli_real_escape_string($con, $_POST['city']) : '';
 
 ?>

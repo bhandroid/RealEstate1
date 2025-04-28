@@ -72,8 +72,8 @@ include("config.php");
                                         <div class="form-group">
                                             <select class="form-control" name="type">
                                                 <option value="">Select Type</option>
-												<option value="apartment">Rent</option>
-												<option value="flat">Sale</option>
+												<option value="Rental">Rental</option>
+												<option value="Sale">Sale</option>
 												
                                             </select>
                                         </div>
