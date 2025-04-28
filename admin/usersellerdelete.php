@@ -2,89 +2,64 @@
 include("config.php");
 
 $user_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-$msg = "";
 
 if ($user_id > 0) {
-    // 1. Delete payments where this user is the seller
+    // ✅ Step 1: Delete PAYMENT records (Offer-related payments)
+    $offer_result = mysqli_query($con, "SELECT offer_id FROM offer WHERE buyer_id = $user_id");
+    while ($offer = mysqli_fetch_assoc($offer_result)) {
+        $offer_id = $offer['offer_id'];
+        mysqli_query($con, "DELETE FROM payment WHERE offer_id = $offer_id");
+    }
+
+    // ✅ Step 2: Delete PAYMENTS where user is SELLER
     mysqli_query($con, "DELETE FROM payment WHERE seller_id = $user_id");
 
-    // 2. Delete payments related to offers placed by this user (buyer)
-    mysqli_query($con, "
-        DELETE FROM payment 
-        WHERE offer_id IN (
-            SELECT offer_id FROM offer WHERE buyer_id = $user_id
-        )
-    ");
-
-    // 3. Delete offers placed by this user (buyer)
+    // ✅ Step 3: Delete OFFERS where buyer_id = user_id
     mysqli_query($con, "DELETE FROM offer WHERE buyer_id = $user_id");
 
-    // 4. Delete appointments where this user is directly involved
-    mysqli_query($con, "DELETE FROM appointment WHERE user_id = $user_id");
-
-    // 5. Delete appointments related to properties owned by this seller
-    mysqli_query($con, "
-        DELETE FROM appointment 
-        WHERE property_id IN (
-            SELECT property_id FROM property_listings WHERE seller_id = $user_id
-        )
-    ");
-
-    // 6. Delete rental contracts related to properties owned by this seller
-    mysqli_query($con, "
-        DELETE FROM rental_contracts 
-        WHERE property_id IN (
-            SELECT property_id FROM property_listings WHERE seller_id = $user_id
-        )
-    ");
-
-    // 7. Delete rental interest related to properties owned by this seller
-    mysqli_query($con, "
-        DELETE FROM rental_interest 
-        WHERE property_id IN (
-            SELECT property_id FROM property_listings WHERE seller_id = $user_id
-        )
-    ");
-
-    // 8. Delete rental interest where this user is buyer
+    // ✅ Step 4: Delete RENTAL_INTEREST where buyer_id = user_id
     mysqli_query($con, "DELETE FROM rental_interest WHERE buyer_id = $user_id");
 
-    // 9. Delete offers related to the seller's properties
-    mysqli_query($con, "
-        DELETE FROM offer 
-        WHERE property_id IN (
-            SELECT property_id FROM property_listings WHERE seller_id = $user_id
-        )
-    ");
+    // ✅ Step 5: Delete related PROPERTY data if the user is a seller
+    $property_result = mysqli_query($con, "SELECT property_id FROM property_listings WHERE seller_id = $user_id");
+    while ($property = mysqli_fetch_assoc($property_result)) {
+        $property_id = $property['property_id'];
+        mysqli_query($con, "DELETE FROM payment WHERE property_id = $property_id");               // Payment related to property
+        mysqli_query($con, "DELETE FROM offer WHERE property_id = $property_id");                // Offers on the property
+        mysqli_query($con, "DELETE FROM property_image WHERE property_id = $property_id");       // Property images
+        mysqli_query($con, "DELETE FROM rental_contracts WHERE property_id = $property_id");     // Rental contracts
+        mysqli_query($con, "DELETE FROM appointment WHERE property_id = $property_id");          // Appointments on property
+        mysqli_query($con, "DELETE FROM favorite WHERE property_id = $property_id");             // Favorites
+        mysqli_query($con, "DELETE FROM rental_interest WHERE property_id = $property_id");      // Rental interests
+        mysqli_query($con, "DELETE FROM property_listings WHERE property_id = $property_id");    // Finally delete the property itself
+    }
 
-    // 10. Delete property images related to the seller's properties
-    mysqli_query($con, "
-        DELETE FROM property_image 
-        WHERE property_id IN (
-            SELECT property_id FROM property_listings WHERE seller_id = $user_id
-        )
-    ");
+    // ✅ Step 6: Delete APPOINTMENT where user is directly involved
+    mysqli_query($con, "DELETE FROM appointment WHERE user_id = $user_id");
 
-    // 11. Delete property listings where this user is the seller
-    mysqli_query($con, "DELETE FROM property_listings WHERE seller_id = $user_id");
+    // ✅ Step 7: Delete FAVORITES
+    mysqli_query($con, "DELETE FROM favorite WHERE user_id = $user_id");
 
-    // 12. Delete tickets raised by this user
+    // ✅ Step 8: Delete TICKETS
     mysqli_query($con, "DELETE FROM tickets WHERE user_id = $user_id");
 
-    // 13. ✅ Finally, delete the user (seller)
-    $sql = "DELETE FROM user WHERE user_id = $user_id AND role = 'seller'";
+    // ✅ Step 9: Delete AUDIT LOG
+    mysqli_query($con, "DELETE FROM audit_log WHERE user_id = $user_id");
+
+    // ✅ Step 12: Finally delete the USER
+    $sql = "DELETE FROM user WHERE user_id = $user_id";
     $result = mysqli_query($con, $sql);
 
     if ($result === true) {
-        $msg = "<p class='alert alert-success'>Seller Deleted Successfully</p>";
+        $msg = "<p class='alert alert-success'>User Deleted Successfully</p>";
     } else {
-        $msg = "<p class='alert alert-warning'>Seller Not Deleted</p>";
+        $msg = "<p class='alert alert-warning'>User Not Deleted</p>";
     }
 } else {
     $msg = "<p class='alert alert-danger'>Invalid User ID</p>";
 }
 
-header("Location: userseller.php?msg=" . urlencode($msg));
+header("Location: userlist.php?msg=" . urlencode($msg));
 mysqli_close($con);
 exit();
 ?>
