@@ -71,7 +71,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Contact</th>
-                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -85,11 +84,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
                                     <td><?php echo $row['name']; ?></td>
                                     <td><?php echo $row['email']; ?></td>
                                     <td><?php echo $row['phone_num']; ?></td>
-                                    <td>
-                                        <a href="admindelete.php?id=<?php echo $row['user_id']; ?>">
-                                            <button class="btn btn-danger">Delete</button>
-                                        </a>
-                                    </td>
+                                    
                                 </tr>
                                 <?php $cnt++; } ?>
                             </tbody>
